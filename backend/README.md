@@ -45,36 +45,29 @@ Todos os comandos a partir de `backend/Src/`, para o `global.json` valer.
 
 ## O que já existe
 
-| Camada | Base pronta |
+| Área | Situação |
 |---|---|
-| Domain | `ITenantOwned`, `IValidate<T>` + `Validate<T>` + `ValidationResponse`, `INotificationHandler` + `NotificationHandler` + `DomainNotification` + `EMessage`, `ILoggerHandler` + `DomainLogger`, `ICurrentTenantContext` + `CurrentTenantContext`, `IUnitOfWork`, `PageList<T>` + `PageParams`, extensions `GetDescription()` e `FormatTo()`, `CustomClaim`, `ConnectionStringOptions` |
-| Infra | `ApplicationContext` (filtro de tenant automático por reflection), `BaseMapping<T>`, `RepositoryBase<T>`, `UnitOfWork`, `IPaginationQueryService<T>` + `PaginationQueryService<T>` |
-| ApplicationService | `ServiceBase`, `LoggerHandler` |
-| Api | `Program.cs`, IoC (`InversionOfControlHandler` + containers), filtros (`NotificationFilter`, `UnitOfWorkFilter`, `LoggerFilter`), `CustomSectionExtension`, Settings (Provider, DatabaseConnection, Controllers, Filters, MigrationHandler), OpenAPI + Scalar, health check, NodaTime `IClock` |
-| Tests | UnitTest (19 testes da base do Domain), IntegrationTest (vazio), ArchitectureTest (3 regras de dependência entre camadas) |
+| Base do padrão | `ITenantOwned`, `Validate<T>`, notifications (`EMessage`), `DomainLogger`, `ICurrentTenantContext`, `PageList<T>` + `PageParams`, `ApplicationContext` com filtro de tenant automático, `BaseMapping<T>`, `RepositoryBase<T>`, `UnitOfWork`, `ServiceBase`, filtros, IoC, OpenAPI + Scalar, health check, `IClock` |
+| Acesso (spec 002) | Identity customizado sem `IdentityDbContext`, Argon2id com pepper, JWT e refresh só em cookie HttpOnly, CSRF por middleware, tenant por claim, rate limiting, CORS, desvio de login no `UnitOfWorkFilter`, seed da conta única. Recuperação e troca de senha foram removidas do escopo em 2026-11-02 |
+| Campanhas (spec 001) | `Campaign` com localização (UF e municípios) e CNAE, máquina de estados (Rascunho, Em execução, Pausada, Concluída, Cancelada), histórico na tabela `Event`, idempotência do "Salvar" por `requestId`, `CampaignController` (criar, editar, iniciar, pausar, retomar, cancelar, detalhe, lista paginada, histórico) e `ReferenceController` (UF, municípios, CNAE) |
+| Dados de referência | `ReferenceSeed` carrega `ORM/Seeds/Data/cnae.tsv` (1.358 CNAE) e `municipios.tsv` (5.571 municípios com UF e código da Receita) na subida, de forma idempotente. Origem e limites em `docs/discovery/spikes-s1-1-e-s1-2-referencias.md` |
+| Tests | UnitTest, IntegrationTest (Testcontainers + Respawn, preservando `Role`, `Cnae` e `Municipality`) e ArchitectureTest (regras de dependência entre camadas) |
 
-`PageList<T>` serializa como `{ items, totalCount, pageNumber, pageSize, totalPages }` (contrato com o front). Ids são `Guid`.
+`PageList<T>` serializa como `{ items, totalCount, pageNumber, pageSize, totalPages }` (contrato com o front). Ids são `Guid`. Datas saem em UTC (ISO 8601) e enums como texto.
+
+### Configuração (somente nomes)
+
+- user-secrets (obrigatórias, validadas na subida): `ConnectionStrings:DefaultConnection`, `Pepper:Secret`, `JwtToken:JwtKey`, `Seed:Email`, `Seed:Password`. Grave `Seed:Email` e `Seed:Password` antes da primeira subida: a conta única nasce do seed.
+- `appsettings.json` (não secretas, valores de partida ajustáveis): `JwtToken` (emissor, audiência e expirações), `RateLimiting:PermitLimitPerMinute`, `Cors:AllowedOrigins` e a seção `Campaign` (`MaxTargetLeadCount`, `MaxCnaePerCampaign`, `MaxCitiesPerCampaign`, `NameMaxLength`, `ObjectiveMaxLength`, `SegmentMaxLength`, `LongTextMaxLength`).
+- Suba sempre com `--launch-profile https`: o cookie de CSRF é `Secure` e não funciona em HTTP puro.
 
 ## Pendências
 
-Cada item indica a nota do Obsidian (e a rule em `.claude/rules/backend/`) que define o desenho.
-
-1. **Identity customizado**: `User`/`Role` POCO no Domain (`Entities/Identity/`), `UserStore`/`RoleStore` no Infra, `AddIdentityCore<User>()` sem `IdentityDbContext`, lookups com `IgnoreQueryFilters()`, senha mínima 8 + lockout 5 tentativas/5 min. Origem: `backend-seguranca-identity`.
-2. **Hash de senha** `ArgonTwoPasswordHasher<T>` (Argon2id + pepper HMAC-SHA256, `Konscious.Security.Cryptography.Argon2` 1.3.1, `PepperOptions` validada na subida). Origem: `backend-seguranca-identity`, `backend-stack-ferramentas`, `backend-regra-segredos`.
-3. **JWT em cookie** HttpOnly/Secure/SameSite=Strict + refresh token com hash no banco e rotação (`Microsoft.AspNetCore.Authentication.JwtBearer` 10.0.13, `JwtTokenOptions`). Origem: `backend-seguranca-identity`.
-4. **Middleware CSRF** (Synchronizer Token, header `X-CSRF-TOKEN`, ignora métodos seguros e `[AllowAnonymous]`, roda antes de CORS/RateLimiter/Auth). Origem: `backend-seguranca-identity`.
-5. **TenantContextMiddleware** (claim `BusinessUnit` para `ICurrentTenantContext`, serviço injetado no `InvokeAsync`) e extension `User.GetBusinessUnitId()`. Origem: `backend-seguranca-identity`, `backend-codigo-api`.
-6. **Rate limiting** (`RateLimitingSettings.LimitingByUser`) e **CORS** (`CorsSettings`). Origem: `backend-codigo-api`, `backend-estrutura-pastas`.
-7. **Roles** em `Domain/UserPolicies/Policy` (`Policy.*`) e `AuthorizationBuilder`. Origem: `backend-codigo-api`.
-8. **AuthenticationContainer** em `Api/IoC/Containers/` (hoje não é chamado). Origem: `backend-codigo-api`.
-9. **Desvio de login no `UnitOfWorkFilter`**: o endpoint de login faz commit sem olhar notification, senão o lockout nunca persiste. Origem: `backend-codigo-api`, `backend-seguranca-identity`.
-10. **Infraestrutura do IntegrationTest**: `WebApplicationFactory<Program>`, `DatabaseFixture` com Testcontainers (imagem `rapidfort/microsoft-sql-server-2019-ib`), Respawn entre testes, `TestAuthHandler` (claims por headers `X-Test-*`), `IntegrationTestBase` com `CreateAuthenticatedClientWithCsrfAsync`, rate limit neutralizado e e-mail fake. Origem: `backend-testes-padrao`, `backend-codigo-testes`.
-11. **Main Sequence Distance** no ArchitectureTest (Domain 0.6, ApplicationService 0.25, Infra 0.25, Api 0.1). Origem: `backend-testes-padrao`.
-12. **Pipelines Azure**: `Src/azure-pipelines-backend.yml` (HML), `Src/azure-pipelines-prd-backend.yml` (PRD) e o template `Src/build-test-dotnet.yml`; `projectPath` sempre no `*.Api.csproj`. Origem: `backend-cicd-azure-iis`.
-13. (removido em 2026-11-02: e-mail e MailKit saíram junto com a recuperação de senha)
-14. **Auditoria em banco**: hoje o `LoggerHandler` só grava os `DomainLogger` no log da aplicação; persistir em tabela é decisão a tomar.
-15. **Seed inicial** em `Infra/ORM/Seeds`, chamado pelo `MigrateDatabaseAsync`.
-16. **Sigla do schema SQL**: `BaseMapping.Schema` está como `"APP"` ([A DEFINIR]).
+1. **Main Sequence Distance** no ArchitectureTest (Domain 0.6, ApplicationService 0.25, Infra 0.25, Api 0.1). Origem: `backend-testes-padrao`.
+2. **Pipelines Azure**: `Src/azure-pipelines-backend.yml` (HML), `Src/azure-pipelines-prd-backend.yml` (PRD) e o template `Src/build-test-dotnet.yml`; `projectPath` sempre no `*.Api.csproj`. Origem: `backend-cicd-azure-iis`.
+3. **Auditoria em banco**: hoje o `LoggerHandler` só grava os `DomainLogger` no log da aplicação; persistir em tabela é decisão a tomar (D8 do plano geral).
+4. **Pesquisa de empresas (spec 003)**: "Iniciar" campanha hoje só muda o estado e grava o evento; o enfileiramento da pesquisa entra com a spec 003, na mesma transação (comentário `shortcut:` em `CampaignCommandService`).
+5. **Sigla do schema SQL**: mantida `APP` (decisão D7, 2026-11-02); trocar depois custa uma migration.
 
 ## Decisões deste esqueleto que não estão nas notas
 

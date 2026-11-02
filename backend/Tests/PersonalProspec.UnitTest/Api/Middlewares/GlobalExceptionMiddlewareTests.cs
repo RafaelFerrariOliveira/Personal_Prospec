@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,20 @@ public sealed class GlobalExceptionMiddlewareTests
         Encoding.UTF8.GetString(((MemoryStream)context.Response.Body).ToArray());
 
     private static Task Throw(HttpContext _) => throw new InvalidOperationException(SecretMessage);
+
+    [Fact]
+    [Trait("Categoria", "Exceção global")]
+    public async Task InvokeAsync_ConcurrencyException_Returns409WithGenericMessage()
+    {
+        var context = NewContext();
+
+        await NewMiddleware(_ => throw new DbUpdateConcurrencyException(SecretMessage)).InvokeAsync(context);
+
+        var body = ReadBody(context);
+        Assert.Equal(StatusCodes.Status409Conflict, context.Response.StatusCode);
+        Assert.Contains(EMessage.ConcurrencyConflict.GetDescription(), body);
+        Assert.DoesNotContain(SecretMessage, body);
+    }
 
     [Fact]
     [Trait("Categoria", "Exceção global")]

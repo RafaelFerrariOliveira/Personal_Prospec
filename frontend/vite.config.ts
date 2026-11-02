@@ -66,8 +66,23 @@ export default ({ mode, command }: { mode: string; command: string }) => {
          coverage: {
             provider: 'v8',
             reporter: ['text', 'html', 'lcov'],
-            include: ['business/**/*.{ts,tsx}', 'axios/**/*.{ts,tsx}', 'src/access/**/*.{ts,tsx}'],
-            exclude: ['**/*.d.ts', '**/index.ts', '**/*.types.ts', '**/*.types.tsx', '**/dtos/**', '**/enum/**'],
+            include: [
+               'business/**/*.{ts,tsx}',
+               'axios/**/*.{ts,tsx}',
+               'src/access/**/*.{ts,tsx}',
+               'src/**/*.controller.tsx',
+               'src/hooks/**/*.{ts,tsx}',
+               'src/utils/**/*.{ts,tsx}',
+            ],
+            exclude: [
+               '**/_templates/**',
+               '**/*.d.ts',
+               '**/index.ts',
+               '**/*.types.ts',
+               '**/*.types.tsx',
+               '**/dtos/**',
+               '**/enum/**',
+            ],
             thresholds: {
                lines: 80,
                functions: 80,

@@ -14,5 +14,6 @@ public static class MigrationHandlerSettings
         await appContext.Database.MigrateAsync();
 
         await scope.ServiceProvider.GetRequiredService<InitialSeed>().RunAsync();
+        await scope.ServiceProvider.GetRequiredService<ReferenceSeed>().RunAsync();
     }
 }

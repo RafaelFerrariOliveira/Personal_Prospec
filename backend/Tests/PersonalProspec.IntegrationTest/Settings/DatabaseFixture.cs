@@ -61,11 +61,15 @@ public sealed class DatabaseFixture : IAsyncLifetime
         await using var connection = new SqlConnection(ConnectionString);
         await connection.OpenAsync();
 
-        // Preserva só o seed imutável (Role) e o histórico de migrations; User é refeito a cada teste.
+        // Preserva só o seed imutável (Role, Cnae e Municipality) e o histórico de migrations; User é refeito a cada teste.
         _respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
         {
             DbAdapter = DbAdapter.SqlServer,
-            TablesToIgnore = [new Table("APP", "Role"), new Table("__EFMigrationsHistory")]
+            TablesToIgnore =
+            [
+                new Table("APP", "Role"), new Table("APP", "Cnae"), new Table("APP", "Municipality"),
+                new Table("__EFMigrationsHistory")
+            ]
         });
     }
 

@@ -35,6 +35,9 @@ export const theme = {
       spinner: '2.5rem',
       contentMaxWidth: '60rem',
       formMaxWidth: '24rem',
+      wizardMaxWidth: '40rem',
+      dropdownMaxHeight: '15rem',
+      textareaMinHeight: '6rem',
       visuallyHidden: '1px',
    },
    durations: {

@@ -22,6 +22,186 @@ namespace PersonalProspec.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.Campaign", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id")
+                        .HasColumnOrder(1);
+
+                    b.Property<Guid>("BusinessUnitId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("business_unit_id")
+                        .HasColumnOrder(14);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasColumnOrder(12);
+
+                    b.Property<string>("Differentials")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("differentials")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("IdealProfile")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("ideal_profile")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasColumnName("name")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("Objective")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("objective")
+                        .HasColumnOrder(4);
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("request_id")
+                        .HasColumnOrder(2);
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnName("row_version")
+                        .HasColumnOrder(15);
+
+                    b.Property<string>("Segment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasColumnName("segment")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Services")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("services")
+                        .HasColumnOrder(7);
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("status")
+                        .HasColumnOrder(11);
+
+                    b.Property<int>("TargetLeadCount")
+                        .HasColumnType("int")
+                        .HasColumnName("target_lead_count")
+                        .HasColumnOrder(10);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at")
+                        .HasColumnOrder(13);
+
+                    b.Property<string>("ValueProposition")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("value_proposition")
+                        .HasColumnOrder(9);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessUnitId", "RequestId")
+                        .IsUnique();
+
+                    b.HasIndex("BusinessUnitId", "Status", "CreatedAt")
+                        .IsDescending(false, false, true);
+
+                    b.ToTable("Campaign", "APP");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.CampaignCnae", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id")
+                        .HasColumnOrder(1);
+
+                    b.Property<Guid>("BusinessUnitId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("business_unit_id")
+                        .HasColumnOrder(4);
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("campaign_id")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("CnaeCode")
+                        .IsRequired()
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("cnae_code")
+                        .HasColumnOrder(3);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId", "CnaeCode")
+                        .IsUnique();
+
+                    b.ToTable("CampaignCnae", "APP");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.CampaignLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id")
+                        .HasColumnOrder(1);
+
+                    b.Property<Guid>("BusinessUnitId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("business_unit_id")
+                        .HasColumnOrder(5);
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("campaign_id")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("MunicipalityCode")
+                        .IsRequired()
+                        .HasColumnType("char(4)")
+                        .HasColumnName("municipality_code")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("char(2)")
+                        .HasColumnName("state")
+                        .HasColumnOrder(3);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId", "State", "MunicipalityCode")
+                        .IsUnique();
+
+                    b.ToTable("CampaignLocation", "APP");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.Cnae", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("code")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("description")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Code");
+
+                    b.ToTable("Cnae", "APP");
+                });
+
             modelBuilder.Entity("PersonalProspec.Domain.Entities.Event", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,6 +411,62 @@ namespace PersonalProspec.Infra.Migrations
                     b.ToTable("User", "APP");
                 });
 
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.Municipality", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("char(4)")
+                        .HasColumnName("code")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(60)")
+                        .HasColumnName("name")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("char(2)")
+                        .HasColumnName("state")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("State", "Name");
+
+                    b.ToTable("Municipality", "APP");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.CampaignCnae", b =>
+                {
+                    b.HasOne("PersonalProspec.Domain.Entities.Campaign", "Campaign")
+                        .WithMany("Cnaes")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.CampaignLocation", b =>
+                {
+                    b.HasOne("PersonalProspec.Domain.Entities.Campaign", "Campaign")
+                        .WithMany("Locations")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.Event", b =>
+                {
+                    b.HasOne("PersonalProspec.Domain.Entities.Campaign", null)
+                        .WithMany()
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
             modelBuilder.Entity("PersonalProspec.Domain.Entities.Identity.RefreshToken", b =>
                 {
                     b.HasOne("PersonalProspec.Domain.Entities.Identity.User", "User")
@@ -251,6 +487,13 @@ namespace PersonalProspec.Infra.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PersonalProspec.Domain.Entities.Campaign", b =>
+                {
+                    b.Navigation("Cnaes");
+
+                    b.Navigation("Locations");
                 });
 #pragma warning restore 612, 618
         }

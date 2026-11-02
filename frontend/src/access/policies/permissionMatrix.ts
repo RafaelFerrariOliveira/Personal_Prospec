@@ -1,8 +1,10 @@
-import type { TFeaturePermissionKey, TMenuPermissionKey } from '@access/types/permissionKeys';
+import { PermissionKeys, type TFeaturePermissionKey, type TMenuPermissionKey } from '@access/types/permissionKeys';
 import type { TAccessPolicy } from './accessPolicy.types';
 import { AccessPresets } from './accessPresets';
 
-export const MENU_ACCESS_RULES: Record<TMenuPermissionKey, TAccessPolicy> = {};
+export const MENU_ACCESS_RULES: Record<TMenuPermissionKey, TAccessPolicy> = {
+   [PermissionKeys.menu.campaigns]: AccessPresets.authenticated,
+};
 
 export const FEATURE_ACCESS_RULES: Record<TFeaturePermissionKey, TAccessPolicy> = {};
 

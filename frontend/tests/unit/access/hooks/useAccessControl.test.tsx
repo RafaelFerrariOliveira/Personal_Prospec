@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { describe, expect, it } from 'vitest';
 import { useAccessControl } from '@access/hooks/useAccessControl';
+import { PermissionKeys } from '@access/types/permissionKeys';
 import { rootReducer } from '@store/combineReducers';
 
 const renderWithUser = (email: string | null) => {
@@ -45,5 +46,23 @@ describe('useAccessControl', () => {
 
       // Assert
       expect(result.current).toBe(first);
+   });
+});
+
+describe('useAccessControl: menu de campanhas', () => {
+   it('mostra o item Campanhas para usuário autenticado', () => {
+      // Act
+      const { result } = renderWithUser('a@b.com');
+
+      // Assert
+      expect(result.current.canShowMenuItem(PermissionKeys.menu.campaigns)).toBe(true);
+   });
+
+   it('esconde o item Campanhas sem usuário', () => {
+      // Act
+      const { result } = renderWithUser(null);
+
+      // Assert
+      expect(result.current.canShowMenuItem(PermissionKeys.menu.campaigns)).toBe(false);
    });
 });

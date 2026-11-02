@@ -86,3 +86,20 @@ As specs só mudam depois das respostas. Nada foi alterado nas specs, no código
 | 6 | Tela "Agente de IA iniciado" vira requisito | Spec 001 ganhou o FR-015 |
 
 Itens 1, 3, 5 e 6 do protótipo (recuperação de senha, perfil, CNAE e proposta de valor ausentes, localização livre, rejeição sem motivo, WhatsApp e LinkedIn, iniciar ao salvar) continuam como ajustes a fazer no protótipo, conforme a seção 2.
+
+## 8. Situação após a implementação da spec 001 (2026-11-02)
+
+Divergências do protótipo resolvidas no front real (o protótipo não foi editado):
+
+| Item da seção 2 | Como ficou no sistema |
+|---|---|
+| 4. Iniciar ao salvar | Salvar cria "Rascunho"; "Iniciar" é ação separada no detalhe e leva à tela "Agente de IA iniciado" (FR-015) |
+| 6. CNAE ausente | Campo obrigatório, busca na lista oficial (1.358 códigos), de 1 a 20 |
+| 7. Proposta de valor ausente | Campo presente na etapa "oferta" |
+| 8. Localização livre | UF da lista fixa e cidades da lista oficial da Receita (nomes em maiúsculas e sem acento) |
+| 9. Página única | Formulário em 6 etapas com resumo antes de salvar |
+| 11. Rótulos de estado | Rótulos da spec: Rascunho, Em execução, Pausada, Concluída, Cancelada |
+| 12. Quantidade máxima de empresas | "Quantidade de leads", de 1 a 500 |
+| 3. Faixa de pontuação | Spec 003 emendada para Alta a partir de 75; implementação na spec 003 |
+
+Ainda dependem de outras specs: rejeição com motivo (004), contatos sem WhatsApp e LinkedIn (003 e 004), contadores de andamento no detalhe (003 e 004), banco central, tarefas, indicadores e operação (007 a 010). Perfil, "Manter conectado" e "Esqueci minha senha" não existem no sistema real, conforme a decisão de remover.

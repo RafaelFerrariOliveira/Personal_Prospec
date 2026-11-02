@@ -1,6 +1,8 @@
-// Grupos vazios: as specs seguintes acrescentam as chaves de menu e de feature.
+// Chaves de menu e de feature; cada spec acrescenta as suas.
 export const PermissionKeys = {
-   menu: {},
+   menu: {
+      campaigns: 'menu.campaigns',
+   },
    feature: {},
 } as const;
 

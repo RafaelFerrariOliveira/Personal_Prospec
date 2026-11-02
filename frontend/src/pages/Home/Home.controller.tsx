@@ -3,9 +3,13 @@ import { RoutePaths } from '@routes/routePaths';
 import type { IHomeController, IHomeControllerDeps } from './Home.types';
 
 // Página de exemplo do padrão MVVM: substituir quando o objetivo do produto estiver definido.
-const UseHomeController = ({ navigate }: IHomeControllerDeps): IHomeController => {
+const UseHomeController = ({ navigate, canShowCampaigns }: IHomeControllerDeps): IHomeController => {
    const onAction = useCallback(() => {
       navigate(RoutePaths.home);
+   }, [navigate]);
+
+   const onOpenCampaigns = useCallback(() => {
+      void navigate(RoutePaths.campaigns);
    }, [navigate]);
 
    return {
@@ -13,6 +17,9 @@ const UseHomeController = ({ navigate }: IHomeControllerDeps): IHomeController =
       description: '[A DEFINIR] objetivo do produto.',
       actionLabel: 'Início',
       onAction,
+      canShowCampaigns,
+      campaignsLabel: 'Campanhas',
+      onOpenCampaigns,
    };
 };
 

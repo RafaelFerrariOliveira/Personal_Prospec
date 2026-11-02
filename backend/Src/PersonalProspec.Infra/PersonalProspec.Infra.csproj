@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="ORM/Seeds/Data/cnae.tsv" LogicalName="cnae.tsv" />
+    <EmbeddedResource Include="ORM/Seeds/Data/municipios.tsv" LogicalName="municipios.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PersonalProspec.Domain\PersonalProspec.Domain.csproj" />
   </ItemGroup>
 

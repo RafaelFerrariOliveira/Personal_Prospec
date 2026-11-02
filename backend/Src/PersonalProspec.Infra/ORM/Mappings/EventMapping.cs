@@ -69,6 +69,12 @@ public sealed class EventMapping : BaseMapping<Event>
             .HasColumnOrder(9)
             .IsRequired();
 
+        builder.HasOne<Campaign>()
+            .WithMany()
+            .HasForeignKey(e => e.CampaignId)
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired(false);
+
         builder.HasIndex(e => new { e.CompanyId, e.OccurredAt });
         builder.HasIndex(e => new { e.CampaignId, e.OccurredAt });
     }

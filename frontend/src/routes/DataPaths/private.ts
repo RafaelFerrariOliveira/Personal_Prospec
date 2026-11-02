@@ -8,4 +8,11 @@ export type TRoutePath = {
 };
 
 // Rotas privadas: { path: RoutePaths.xxx, element: LazyImports.Xxx }. Protegidas por AuthRequiredRoutes.
-export const privateRoutes: TRoutePath[] = [{ path: RoutePaths.home, element: LazyImports.Home }];
+export const privateRoutes: TRoutePath[] = [
+   { path: RoutePaths.home, element: LazyImports.Home },
+   { path: RoutePaths.campaigns, element: LazyImports.Campaigns },
+   { path: RoutePaths.campaignNew, element: LazyImports.CampaignForm },
+   { path: RoutePaths.campaignEdit, element: LazyImports.CampaignForm },
+   { path: RoutePaths.campaignStarted, element: LazyImports.CampaignStarted },
+   { path: RoutePaths.campaignDetail, element: LazyImports.CampaignDetail },
+];

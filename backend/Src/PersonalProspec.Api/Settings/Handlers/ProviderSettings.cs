@@ -37,6 +37,12 @@ public static class ProviderSettings
             o => !string.IsNullOrWhiteSpace(o.Email) && o.Password is { Length: >= PasswordRules.MinLength },
             "Seed:Email e Seed:Password não configurados (a senha exige o tamanho mínimo).");
 
+        services.SetConfigureOptionsWithValidation<CampaignOptions>(
+            configuration, CampaignOptions.SectionName,
+            o => o.MaxTargetLeadCount > 0 && o.MaxCnaePerCampaign > 0 && o.MaxCitiesPerCampaign > 0
+                 && o.NameMaxLength > 0 && o.ObjectiveMaxLength > 0 && o.SegmentMaxLength > 0 && o.LongTextMaxLength > 0,
+            "Campaign: todos os limites devem ser positivos.");
+
         services.SetConfigureOptionsWithValidation<RateLimitingOptions>(
             configuration, RateLimitingOptions.SectionName,
             o => o.PermitLimitPerMinute > 0,

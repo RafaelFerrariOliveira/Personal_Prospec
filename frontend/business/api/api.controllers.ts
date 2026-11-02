@@ -3,6 +3,8 @@
 export const ApiControllers = {
    Authentication: 'Authentication',
    Antiforgery: 'Antiforgery',
+   Campaign: 'Campaign',
+   Reference: 'Reference',
 } as const;
 
 export type ApiControllerName = (typeof ApiControllers)[keyof typeof ApiControllers];

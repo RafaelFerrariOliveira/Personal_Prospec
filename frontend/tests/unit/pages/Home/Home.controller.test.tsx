@@ -6,7 +6,10 @@ import type { IHomeControllerDeps } from '@pages/Home/Home.types';
 import { RoutePaths } from '@routes/routePaths';
 
 // NavigateFunction é sobrecarregada; o mock é convertido só na fronteira das deps.
-const toDeps = (navigate: Mock): IHomeControllerDeps => ({ navigate: navigate as unknown as NavigateFunction });
+const toDeps = (navigate: Mock): IHomeControllerDeps => ({
+   navigate: navigate as unknown as NavigateFunction,
+   canShowCampaigns: true,
+});
 
 describe('UseHomeController', () => {
    it('expõe os textos prontos para a view', () => {
@@ -33,6 +36,20 @@ describe('UseHomeController', () => {
       // Assert
       expect(navigate).toHaveBeenCalledTimes(1);
       expect(navigate).toHaveBeenCalledWith(RoutePaths.home);
+   });
+
+   it('navega para a lista de campanhas e expõe o rótulo', () => {
+      // Arrange
+      const navigate = vi.fn();
+      const { result } = renderHook(() => UseHomeController(toDeps(navigate)));
+
+      // Act
+      result.current.onOpenCampaigns();
+
+      // Assert
+      expect(result.current.campaignsLabel).toBe('Campanhas');
+      expect(result.current.canShowCampaigns).toBe(true);
+      expect(navigate).toHaveBeenCalledWith(RoutePaths.campaigns);
    });
 
    it('mantém o mesmo handler entre renders quando navigate não muda', () => {

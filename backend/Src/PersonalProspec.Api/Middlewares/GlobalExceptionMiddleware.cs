@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PersonalProspec.Domain.Extensions;
 using PersonalProspec.Domain.Handlers.NotificationSettings;
 
@@ -14,6 +15,18 @@ public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<Glob
         try
         {
             await next(context);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (context.Response.HasStarted)
+                throw;
+
+            context.Response.Clear();
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
+            await context.Response.WriteAsJsonAsync(new[]
+            {
+                new DomainNotification(NotificationKey, EMessage.ConcurrencyConflict.GetDescription())
+            });
         }
         catch (Exception exception)
         {

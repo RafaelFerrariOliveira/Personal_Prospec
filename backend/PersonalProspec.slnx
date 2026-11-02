@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Src/">
+    <File Path="Src/global.json" />
+    <Project Path="Src/PersonalProspec.Api/PersonalProspec.Api.csproj" />
+    <Project Path="Src/PersonalProspec.ApplicationService/PersonalProspec.ApplicationService.csproj" />
+    <Project Path="Src/PersonalProspec.Domain/PersonalProspec.Domain.csproj" />
+    <Project Path="Src/PersonalProspec.Infra/PersonalProspec.Infra.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/PersonalProspec.ArchitectureTest/PersonalProspec.ArchitectureTest.csproj" />
+    <Project Path="Tests/PersonalProspec.IntegrationTest/PersonalProspec.IntegrationTest.csproj" />
+    <Project Path="Tests/PersonalProspec.UnitTest/PersonalProspec.UnitTest.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,66 @@
+{
+   "compilerOptions": {
+      "target": "ES2022",
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+
+      /* Bundler mode */
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "jsx": "react-jsx",
+
+      /* Strict typing */
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleDetection": "force",
+      "noImplicitOverride": true,
+      "noImplicitReturns": true,
+      "noUncheckedIndexedAccess": true,
+      "noPropertyAccessFromIndexSignature": true,
+      "verbatimModuleSyntax": true,
+      "exactOptionalPropertyTypes": true,
+
+      /* Inversify decorators */
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "useDefineForClassFields": false,
+
+      /* Path aliases: manter sincronizado com resolve.alias de vite.config.ts */
+      "paths": {
+         "@src/*": ["./src/*"],
+         "@pages/*": ["./src/pages/*"],
+         "@components/*": ["./src/components/*"],
+         "@hooks/*": ["./src/hooks/*"],
+         "@store/*": ["./src/stores/*"],
+         "@assets/*": ["./src/assets/*"],
+         "@extensions/*": ["./src/extensions/*"],
+         "@routes/*": ["./src/routes/*"],
+         "@access/*": ["./src/access/*"],
+         "@context/*": ["./src/context/*"],
+         "@utils/*": ["./src/utils/*"],
+         "@axios/*": ["./axios/*"],
+         "@application/*": ["./business/application/*"],
+         "@services/*": ["./business/application/*"],
+         "@interfaces/*": ["./business/application/interfaces/*"],
+         "@request/*": ["./business/application/dtos/request/*"],
+         "@response/*": ["./business/application/dtos/response/*"],
+         "@dtos/*": ["./business/application/dtos/*"],
+         "@domain/*": ["./business/domain/*"],
+         "@enums/*": ["./business/domain/enum/*"],
+         "@infrastructure/*": ["./business/infrastructure/*"],
+         "@shared/*": ["./business/shared/*"],
+         "@api/*": ["./business/api/*"],
+         "@core/*": ["./business/core/*"],
+         "@ioc/*": ["./business/core/ioc/*"]
+      }
+   },
+   "include": ["src", "axios", "business", "tests/unit", "tests/mocks", "tests/setup", "tests/integration"],
+   "exclude": ["dist", "node_modules", "tests/e2e", "src/pages/_templates/**"]
+}

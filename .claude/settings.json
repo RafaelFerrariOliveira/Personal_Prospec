@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "PONYTAIL_DEFAULT_MODE": "lite",
+    "PONYTAIL_SUBAGENT_MATCHER": "^(?!(back|front)-architecture-auditor$)"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev *)",
+      "Bash(npm run build *)",
+      "Bash(npm run lint *)",
+      "Bash(npm run format *)",
+      "Bash(npm run ts:check *)",
+      "Bash(npm run test:unit *)",
+      "Bash(npm run test:integration *)",
+      "Bash(npm run test:coverage *)",
+      "Bash(npx vitest *)",
+      "Bash(npx prettier --check *)",
+      "Bash(npx playwright test *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet test *)",
+      "Bash(dotnet ef migrations add *)",
+      "Bash(dotnet ef migrations list *)",
+      "Bash(dotnet ef migrations script *)",
+      "Bash(node .claude/scripts/sync-obsidian-rules.mjs *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(dotnet user-secrets list *)",
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/.env.development)",
+      "Read(**/.env.homolog)",
+      "Read(**/.env.qa)",
+      "Read(**/.env.production)",
+      "Read(**/secrets.json)",
+      "Read(**/appsettings.*.local.json)",
+      "Read(**/*.pfx)",
+      "Read(**/*.pem)"
+    ],
+    "ask": [
+      "Bash(npm install *)",
+      "Bash(npm ci *)",
+      "Bash(npm uninstall *)",
+      "Bash(dotnet add * package *)",
+      "Bash(dotnet remove * package *)",
+      "Bash(dotnet ef database *)",
+      "Bash(dotnet user-secrets set *)",
+      "Bash(dotnet user-secrets remove *)",
+      "Bash(git push *)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/block-secrets-commit.mjs\""
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/block-remote-database.mjs\""
+          }
+        ]
+      }
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true
+  }
+}

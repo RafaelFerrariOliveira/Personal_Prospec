@@ -1,0 +1,49 @@
+# Segredos e configuração local (nunca versionar)
+.env
+.env.*
+!.env.example
+*.local
+*.pfx
+*.pem
+*.p12
+secrets.json
+appsettings.*.local.json
+CLAUDE.local.md
+.claude/settings.local.json
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+*.trx
+coverage.cobertura.xml
+
+# Node, Vite, Storybook, Playwright
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+coverage/
+storybook-static/
+*storybook.log
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Logs
+logs/
+*.log
+
+# IDE e sistema
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Estado local do Spec Kit
+.specify/feature.json

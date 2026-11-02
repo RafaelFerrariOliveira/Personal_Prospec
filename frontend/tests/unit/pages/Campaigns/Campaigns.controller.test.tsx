@@ -57,13 +57,27 @@ describe('UseCampaignsController', () => {
 
       // Act
       const row = await screen.findByTestId(`campaigns-row-${ID_A}`);
-      fireEvent.click(row);
+      fireEvent.click(screen.getByTestId(`campaigns-open-${ID_A}`));
 
       // Assert
       expect(row.textContent).toContain('Campanha 0');
+      expect(row.textContent).toContain('Tecnologia');
       expect(row.textContent).toContain('SP, 3 cidades');
       expect(row.textContent).toContain('Em execução');
+      expect(row.textContent).toContain('02/11/2026');
       expect(screen.getByTestId(`campaigns-row-${ID_B}`).textContent).toContain('Rascunho');
+      expect(navigate).toHaveBeenCalledWith(buildCampaignDetailPath(ID_A));
+   });
+
+   it('clicar no nome da campanha também abre o detalhe', async () => {
+      // Arrange
+      const navigate = vi.fn();
+      render(<Harness getAllCampaigns={vi.fn<TGetAll>().mockResolvedValue(page([ID_A]))} navigate={navigate} />);
+
+      // Act
+      fireEvent.click(await screen.findByTestId(`campaigns-name-${ID_A}`));
+
+      // Assert
       expect(navigate).toHaveBeenCalledWith(buildCampaignDetailPath(ID_A));
    });
 

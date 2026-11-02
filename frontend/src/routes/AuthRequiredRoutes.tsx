@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAccessControl } from '@access/hooks/useAccessControl';
-import AppHeader from '@components/appHeader/AppHeader';
 import Loading from '@components/loading/loading';
+import Sidebar from '@components/sidebar/Sidebar';
 import { useInjection } from '@hooks/useInjection';
 import { useSessionBootstrap } from '@hooks/useSessionBootstrap';
 import type { IAuthenticationService } from '@interfaces/authentication.interface';
@@ -11,6 +11,7 @@ import { RoutePaths } from '@routes/routePaths';
 import { selectIsSessionBootstrapped } from '@store/reducers/session/sessionSlice';
 import { selectUser } from '@store/reducers/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@store/store';
+import { Content, Main, Shell } from './defaultContainer.styles';
 
 /** Guarda de toda rota privada (ver react-router.md): bootstrap, Loading, login sem usuário, acesso e Outlet. */
 const AuthRequiredRoutes = () => {
@@ -43,10 +44,14 @@ const AuthRequiredRoutes = () => {
    if (!canAccessRoute(location.pathname)) return <Navigate to={RoutePaths.home} replace />;
 
    return (
-      <>
-         <AppHeader />
-         <Outlet />
-      </>
+      <Shell>
+         <Sidebar />
+         <Main>
+            <Content>
+               <Outlet />
+            </Content>
+         </Main>
+      </Shell>
    );
 };
 

@@ -34,13 +34,13 @@ frontend/
 │   └── infrastructure/    logging/ (ConsoleLogger)
 ├── src/
 │   ├── access/            controle de acesso (policies, presets, permissionMatrix, useAccessControl)
-│   ├── components/        appHeader, loading, statusBadge, cnaeSearchInput, municipalityPicker, campaignActions, campaignHistory
+│   ├── components/        sidebar, brand, icon, loading, statusBadge, cnaeSearchInput, municipalityPicker, campaignActions, campaignHistory
 │   ├── extensions/        designSystem/ (cores e fonte do protótipo, medidas, focusRing)
 │   ├── hooks/             useInjection, useSessionBootstrap, useInfiniteScrollQuery, useIntersectionObserver, useCampaignDetail
 │   ├── pages/             Login, Home, Campaigns, CampaignForm (criar e editar), CampaignDetail, CampaignStarted
 │   ├── routes/            RoutesApp, AuthRequiredRoutes, DataPaths/, LazyImports/, routePaths
 │   ├── stores/            Redux Toolkit: só session e user
-│   └── utils/             apiErrorMessages
+│   └── utils/             apiErrorMessages, formatDate, formatLocationSummary
 └── tests/                 unit/, integration/, e2e/, mocks/, setup/
 ```
 

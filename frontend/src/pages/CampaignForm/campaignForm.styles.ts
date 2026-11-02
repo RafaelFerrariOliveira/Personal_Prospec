@@ -1,67 +1,111 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
 import {
+   card,
+   errorBox,
    fieldError,
+   fieldHint,
    fieldInput,
    fieldLabel,
+   fieldTextarea,
+   pageSubtitle,
+   pageTitle,
    primaryButton,
    secondaryButton,
+   sectionTitle,
+   textButton,
 } from '@extensions/designSystem/formControls';
 import { theme } from '@extensions/designSystem/themes';
 
-export const Container = styled.main`
-   display: flex;
-   justify-content: center;
-   padding: ${theme.spacing.xl} ${theme.spacing.md};
-   background-color: ${colors.surface.page};
-`;
-
-export const Card = styled.form`
+export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.md};
+   gap: ${theme.space[24]};
    width: 100%;
-   max-width: ${theme.sizes.wizardMaxWidth};
-   padding: ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.surface.card};
-   font-family: ${theme.fontFamily};
+   max-width: ${theme.sizes.campaignFormMaxWidth};
+`;
+
+export const BackLink = styled.button`
+   ${textButton}
+   align-self: flex-start;
+`;
+
+export const Heading = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[6]};
 `;
 
 export const Title = styled.h1`
-   margin: 0;
-   font-size: ${theme.fontSizes.pageTitle};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
+   ${pageTitle}
+`;
+
+export const Subtitle = styled.p`
+   ${pageSubtitle}
 `;
 
 export const StepList = styled.ol`
    display: flex;
    flex-wrap: wrap;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[6]};
    margin: 0;
    padding: 0;
    list-style: none;
 `;
 
 export const StepItem = styled.li<{ $isCurrent: boolean }>`
-   padding: ${theme.spacing.xs} ${theme.spacing.sm};
+   display: inline-flex;
+   align-items: center;
+   min-height: ${theme.sizes.controlSmall};
+   padding: 0 ${theme.space[12]};
+   border: ${theme.borderWidths.thin} solid
+      ${(props) => (props.$isCurrent ? colors.primary[200] : colors.surface.border)};
    border-radius: ${theme.rounded.full};
-   background-color: ${(props) => (props.$isCurrent ? colors.primary[500] : colors.surface.hover)};
-   font-size: ${theme.fontSizes.caption};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${(props) => (props.$isCurrent ? colors.neutro.white : colors.text.secondary)};
+   background-color: ${(props) => (props.$isCurrent ? colors.primary[50] : colors.surface.card)};
+   font-size: ${theme.fontSizes.small};
+   font-weight: ${theme.fontWeights.medium};
+   color: ${(props) => (props.$isCurrent ? colors.primary[700] : colors.text.secondary)};
+`;
+
+export const Card = styled.form`
+   ${card}
+   display: flex;
+   flex-direction: column;
+`;
+
+export const NoticeCard = styled.div`
+   ${card}
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: ${theme.space[14]};
+   padding: ${theme.space[24]};
+`;
+
+export const Section = styled.section`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[18]};
+   padding: ${theme.space[24]};
+   border-bottom: ${theme.borderWidths.thin} solid ${colors.surface.divider};
+`;
+
+export const SectionTitle = styled.h2`
+   ${sectionTitle}
 `;
 
 export const Field = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[6]};
 `;
 
 export const Label = styled.label`
    ${fieldLabel}
+`;
+
+export const RequiredMark = styled.span`
+   color: ${colors.feedback.error.fg};
 `;
 
 export const Input = styled.input`
@@ -69,29 +113,35 @@ export const Input = styled.input`
 `;
 
 export const Textarea = styled.textarea`
-   ${fieldInput}
-   min-height: ${theme.sizes.textareaMinHeight};
-   resize: vertical;
+   ${fieldTextarea}
 `;
 
 export const FieldError = styled.span`
    ${fieldError}
 `;
 
+export const FieldHint = styled.span`
+   ${fieldHint}
+`;
+
 export const ErrorList = styled.ul`
-   margin: 0;
-   padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.feedback.error.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.feedback.error.bg};
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.feedback.error.fg};
+   ${errorBox}
+`;
+
+export const Footer = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[12]};
+   padding: ${theme.space[18]} ${theme.space[24]};
+   border-radius: 0 0 ${theme.rounded.card} ${theme.rounded.card};
+   background-color: ${colors.surface.subtle};
 `;
 
 export const Actions = styled.div`
    display: flex;
-   justify-content: space-between;
-   gap: ${theme.spacing.md};
+   flex-wrap: wrap;
+   justify-content: flex-end;
+   gap: ${theme.space[8]};
 `;
 
 export const BackButton = styled.button`
@@ -100,5 +150,4 @@ export const BackButton = styled.button`
 
 export const PrimaryButton = styled.button`
    ${primaryButton}
-   margin-left: auto;
 `;

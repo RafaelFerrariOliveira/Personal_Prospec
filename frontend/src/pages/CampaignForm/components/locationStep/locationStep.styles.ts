@@ -4,5 +4,5 @@ import { theme } from '@extensions/designSystem/themes';
 export const StepBody = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[6]};
 `;

@@ -1,87 +1,169 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
-import { secondaryButton } from '@extensions/designSystem/formControls';
+import {
+   card,
+   errorBox,
+   pageTitle,
+   sectionTitle,
+   smallButton,
+   textButton,
+} from '@extensions/designSystem/formControls';
 import { theme } from '@extensions/designSystem/themes';
 
-export const Container = styled.main`
+export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.lg};
-   max-width: ${theme.sizes.contentMaxWidth};
-   margin: 0 auto;
-   padding: ${theme.spacing.xl} ${theme.spacing.md};
-   font-family: ${theme.fontFamily};
+   gap: ${theme.space[24]};
+`;
+
+export const Breadcrumb = styled.nav`
+   display: flex;
+   align-items: center;
+   gap: ${theme.space[6]};
+   min-width: 0;
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.muted};
+`;
+
+export const BackLink = styled.button`
+   ${textButton}
+   flex-shrink: 0;
+`;
+
+export const BreadcrumbCurrent = styled.span`
+   overflow: hidden;
+   font-weight: ${theme.fontWeights.medium};
+   color: ${colors.text.primary};
+   white-space: nowrap;
+   text-overflow: ellipsis;
 `;
 
 export const Header = styled.header`
    display: flex;
-   align-items: center;
+   flex-direction: column;
+   gap: ${theme.space[12]};
+`;
+
+export const TitleRow = styled.div`
+   display: flex;
    flex-wrap: wrap;
-   gap: ${theme.spacing.md};
+   align-items: center;
+   gap: ${theme.space[12]};
 `;
 
 export const Title = styled.h1`
+   ${pageTitle}
+`;
+
+export const Objective = styled.p`
+   max-width: ${theme.sizes.descriptionMaxWidth};
    margin: 0;
-   font-size: ${theme.fontSizes.pageTitle};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
+   font-size: ${theme.fontSizes.sectionTitle};
+   color: ${colors.text.strong};
+   overflow-wrap: anywhere;
+`;
+
+export const MetaRow = styled.div`
+   display: flex;
+   flex-wrap: wrap;
+   gap: ${theme.space[8]} ${theme.space[22]};
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.secondary};
+`;
+
+export const MetaItem = styled.span`
+   display: inline-flex;
+   align-items: center;
+   gap: ${theme.space[6]};
 `;
 
 export const Card = styled.section`
+   ${card}
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
-   padding: ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.surface.card};
+   gap: ${theme.space[14]};
+   padding: ${theme.space[20]} ${theme.space[22]};
+`;
+
+export const ProgressHeader = styled.div`
+   display: flex;
+   align-items: center;
+   gap: ${theme.space[14]};
+   min-width: 0;
+`;
+
+export const ProgressIcon = styled.span`
+   display: flex;
+   flex-shrink: 0;
+   align-items: center;
+   justify-content: center;
+   width: ${theme.sizes.iconTileLarge};
+   height: ${theme.sizes.iconTileLarge};
+   border-radius: ${theme.rounded.box};
+   background-color: ${colors.surface.hover};
+   color: ${colors.text.strong};
+`;
+
+export const ProgressTexts = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[2]};
+   min-width: 0;
+`;
+
+export const ProgressTitle = styled.span`
+   font-size: ${theme.fontSizes.sectionTitle};
+   font-weight: ${theme.fontWeights.bold};
+`;
+
+export const ProgressSub = styled.span`
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.secondary};
+`;
+
+export const SectionTitle = styled.h2`
+   ${sectionTitle}
 `;
 
 export const DetailList = styled.dl`
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(${theme.sizes.fieldGridMinWidth}, 1fr));
+   gap: ${theme.space[18]};
+   margin: 0;
+`;
+
+export const DetailItem = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
-   margin: 0;
+   gap: ${theme.space[2]};
 `;
 
 export const Term = styled.dt`
    font-size: ${theme.fontSizes.caption};
-   font-weight: ${theme.fontWeights.bold};
    color: ${colors.text.muted};
 `;
 
 export const Value = styled.dd`
    margin: 0;
-   font-size: ${theme.fontSizes.body};
+   font-size: ${theme.fontSizes.base};
    color: ${colors.text.primary};
    overflow-wrap: anywhere;
 `;
 
-export const ProgressText = styled.p`
-   margin: 0;
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.text.secondary};
-`;
-
-export const Notice = styled.div`
+export const NoticeCard = styled.div`
+   ${card}
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
    align-items: flex-start;
-   font-size: ${theme.fontSizes.body};
-   color: ${colors.text.primary};
+   gap: ${theme.space[14]};
+   padding: ${theme.space[24]};
+   font-size: ${theme.fontSizes.base};
 `;
 
 export const ErrorList = styled.ul`
-   margin: 0;
-   padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.feedback.error.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.feedback.error.bg};
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.feedback.error.fg};
+   ${errorBox}
 `;
 
 export const ActionButton = styled.button`
-   ${secondaryButton}
+   ${smallButton}
 `;

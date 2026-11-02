@@ -1,81 +1,74 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
-import { primaryButton, secondaryButton } from '@extensions/designSystem/formControls';
-import { focusRing } from '@extensions/designSystem/focusRing';
+import {
+   actionButton,
+   actionDangerButton,
+   actionPrimaryButton,
+   errorBox,
+   fieldHint,
+   smallButton,
+   smallDangerButton,
+} from '@extensions/designSystem/formControls';
 import { theme } from '@extensions/designSystem/themes';
 
-export const Container = styled.section`
+export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
-   font-family: ${theme.fontFamily};
+   gap: ${theme.space[14]};
 `;
 
 export const ButtonRow = styled.div`
    display: flex;
    flex-wrap: wrap;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[8]};
 `;
 
 export const PrimaryButton = styled.button`
-   ${primaryButton}
+   ${actionPrimaryButton}
 `;
 
 export const SecondaryButton = styled.button`
-   ${secondaryButton}
+   ${actionButton}
 `;
 
 export const DangerButton = styled.button`
-   padding: ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.feedback.danger.bar};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.feedback.danger.bg};
-   color: ${colors.feedback.danger.fg};
-   font-family: ${theme.fontFamily};
-   font-size: ${theme.fontSizes.button};
-   font-weight: ${theme.fontWeights.bold};
-   cursor: pointer;
-   transition: background-color ${theme.durations.fast} ease-in-out;
-
-   &:hover {
-      background-color: ${colors.feedback.error.bg};
-   }
-
-   &:active {
-      background-color: ${colors.feedback.error.border};
-   }
-
-   &:disabled {
-      cursor: not-allowed;
-      opacity: ${theme.opacities.disabled};
-   }
-
-   ${focusRing}
+   ${actionDangerButton}
 `;
 
 export const Confirmation = styled.div`
    display: flex;
-   flex-direction: column;
-   gap: ${theme.spacing.sm};
-   padding: ${theme.spacing.md};
-   border: ${theme.borderWidths.thin} solid ${colors.feedback.danger.bar};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.feedback.danger.bg};
-   color: ${colors.feedback.danger.fg};
-   font-size: ${theme.fontSizes.button};
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: space-between;
+   gap: ${theme.space[12]};
+   padding: ${theme.space[12]} ${theme.space[14]};
+   border: ${theme.borderWidths.thin} solid ${colors.feedback.error.border};
+   border-radius: ${theme.rounded.box};
+   background-color: ${colors.feedback.error.bg};
+`;
+
+export const ConfirmationText = styled.span`
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.feedback.error.text};
+`;
+
+export const ConfirmationActions = styled.div`
+   display: flex;
+   gap: ${theme.space[8]};
+`;
+
+export const KeepButton = styled.button`
+   ${smallButton}
+`;
+
+export const ConfirmButton = styled.button`
+   ${smallDangerButton}
 `;
 
 export const Hint = styled.span`
-   font-size: ${theme.fontSizes.caption};
-   color: ${colors.text.muted};
+   ${fieldHint}
 `;
 
 export const ErrorList = styled.ul`
-   margin: 0;
-   padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.feedback.error.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.feedback.error.bg};
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.feedback.error.fg};
+   ${errorBox}
 `;

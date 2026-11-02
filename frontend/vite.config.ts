@@ -41,14 +41,17 @@ function stripSecureFlagFromSetCookieHeaders(setCookieHeader: string | string[] 
    return cookieHeaders.map((cookieHeader) => cookieHeader.replace(/;\s*secure/gi, ''));
 }
 
-/** Hardening básico do navegador no server/preview do Vite. Sem nenhuma URL de produção. */
+/**
+ * Hardening básico do navegador no server/preview do Vite. Sem nenhuma URL de produção.
+ * A fonte Inter vem do Google Fonts, como no protótipo: style-src e font-src liberam só esses dois hosts.
+ */
 const SECURITY_RESPONSE_HEADERS: Record<string, string> = {
    'X-Frame-Options': 'DENY',
    'X-Content-Type-Options': 'nosniff',
    'Referrer-Policy': 'strict-origin-when-cross-origin',
    'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
    'Content-Security-Policy':
-      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' http://localhost:* https://localhost:* ws://localhost:* wss://localhost:*; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://localhost:* https://localhost:* ws://localhost:* wss://localhost:*; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
 };
 
 export default ({ mode, command }: { mode: string; command: string }) => {

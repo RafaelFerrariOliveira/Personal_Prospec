@@ -7,7 +7,7 @@ import { theme } from '@extensions/designSystem/themes';
 export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[6]};
 `;
 
 export const Label = styled.label`
@@ -19,7 +19,7 @@ export const Input = styled.input`
 `;
 
 export const Feedback = styled.span`
-   font-family: ${theme.fontFamily};
+   font-family: inherit;
    font-size: ${theme.fontSizes.caption};
    color: ${colors.text.muted};
 `;
@@ -35,17 +35,18 @@ export const ResultList = styled.ul`
    overflow-y: auto;
    list-style: none;
    border: ${theme.borderWidths.thin} solid ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
+   border-radius: ${theme.rounded.control};
    background-color: ${colors.surface.card};
 `;
 
 export const ResultButton = styled.button`
    display: block;
    width: 100%;
-   padding: ${theme.spacing.sm} ${theme.spacing.md};
+   padding: ${theme.space[10]} ${theme.space[12]};
    border: none;
+   border-bottom: ${theme.borderWidths.thin} solid ${colors.surface.divider};
    background-color: transparent;
-   font-family: ${theme.fontFamily};
+   font-family: inherit;
    font-size: ${theme.fontSizes.button};
    color: ${colors.text.primary};
    text-align: left;
@@ -70,7 +71,7 @@ export const ResultButton = styled.button`
 export const ChipList = styled.ul`
    display: flex;
    flex-wrap: wrap;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[6]};
    margin: 0;
    padding: 0;
    list-style: none;
@@ -79,17 +80,18 @@ export const ChipList = styled.ul`
 export const Chip = styled.li`
    display: flex;
    align-items: center;
-   gap: ${theme.spacing.xs};
-   padding: ${theme.spacing.xs} ${theme.spacing.sm};
+   gap: ${theme.space[4]};
+   min-height: ${theme.sizes.badge};
+   padding: 0 ${theme.space[4]} 0 ${theme.space[10]};
    border-radius: ${theme.rounded.full};
    background-color: ${colors.primary[50]};
-   font-family: ${theme.fontFamily};
+   font-family: inherit;
    font-size: ${theme.fontSizes.caption};
    color: ${colors.primary[700]};
 `;
 
 export const RemoveButton = styled.button`
-   padding: 0 ${theme.spacing.xs};
+   padding: 0 ${theme.space[4]};
    border: none;
    border-radius: ${theme.rounded.full};
    background-color: transparent;

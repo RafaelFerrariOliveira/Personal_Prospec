@@ -15,9 +15,9 @@ test.describe('Login (API real) @real-api', () => {
       await page.getByTestId('login-submit').click();
 
       await expect(page).toHaveURL('/home');
-      await expect(page.getByTestId('app-header-email')).toBeVisible();
+      await expect(page.getByTestId('sidebar-email')).toBeVisible();
 
-      await page.getByTestId('app-header-logout').click();
+      await page.getByTestId('sidebar-logout').click();
       await expect(page.getByTestId('login')).toBeVisible();
    });
 });

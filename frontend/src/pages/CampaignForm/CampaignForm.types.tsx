@@ -34,6 +34,7 @@ export interface ICampaignFormController {
    loadErrors: string[];
    stepIndex: number;
    stepLabels: string[];
+   stepTitle: string;
    isFirstStep: boolean;
    isLastStep: boolean;
    register: UseFormRegister<TCreateCampaignRequest>;

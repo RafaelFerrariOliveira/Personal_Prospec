@@ -132,6 +132,10 @@ describe('UseCampaignActionsController: ações', () => {
 
       // Assert
       expect(has('campaign-cancel-confirm')).toBe(true);
+      // FR-010: cancelar não apaga o que já foi coletado nem o histórico.
+      expect(screen.getByTestId('campaign-cancel-confirm').textContent).toContain(
+         'Os dados já coletados e o histórico continuam guardados.',
+      );
       expect(fakes.service.cancelCampaign).not.toHaveBeenCalled();
    });
 

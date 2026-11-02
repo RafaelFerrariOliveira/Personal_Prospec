@@ -82,7 +82,7 @@ test.describe('Lista de campanhas (API mockada)', () => {
       await expect(page.getByTestId(`campaigns-row-${ID_A}`)).toHaveCount(0);
 
       await page.getByTestId('campaigns-status').selectOption('');
-      await page.getByTestId(`campaigns-row-${ID_A}`).click();
+      await page.getByTestId(`campaigns-open-${ID_A}`).click();
 
       await expect(page).toHaveURL(`/campaigns/${ID_A}`);
       await expect(page.getByTestId('campaign-detail-name')).toHaveText('Campanha A');
@@ -90,13 +90,18 @@ test.describe('Lista de campanhas (API mockada)', () => {
       await expect(page.getByTestId('campaign-history-list')).toContainText('Campanha criada');
    });
 
-   test('Home tem o link Campanhas que leva à lista', async ({ page }) => {
+   test('Home: Ver todas e o menu lateral levam à lista', async ({ page }) => {
       await mockSession(page);
       await mockList(page, []);
 
       await page.goto('/home');
-      await page.getByTestId('home-campaigns').click();
+      await page.getByTestId('home-see-all').click();
 
       await expect(page).toHaveURL('/campaigns');
+      await expect(page.getByTestId('sidebar-nav-campaigns')).toHaveAttribute('aria-current', 'page');
+
+      await page.getByTestId('sidebar-nav-home').click();
+      await expect(page).toHaveURL('/home');
+      await expect(page.getByTestId('home-stat-total-value')).toHaveText('0');
    });
 });

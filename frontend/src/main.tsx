@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import '@ioc/ioc.config';
+import { GlobalStyle } from '@extensions/designSystem/globalStyle';
 import { theme } from '@extensions/designSystem/themes';
 import RoutesApp from '@routes/RoutesApp';
 import store from '@store/store';
@@ -18,6 +19,7 @@ createRoot(rootElement).render(
    <StrictMode>
       <Provider store={store}>
          <ThemeProvider theme={theme}>
+            <GlobalStyle />
             <RoutesApp />
          </ThemeProvider>
       </Provider>

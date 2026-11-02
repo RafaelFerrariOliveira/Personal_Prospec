@@ -3,6 +3,7 @@ import {
    ErrorBox,
    ErrorText,
    Feedback,
+   Header,
    Heading,
    Item,
    ItemDate,
@@ -25,7 +26,9 @@ const CampaignHistoryView = ({
 }: ICampaignHistoryViewProps) => {
    return (
       <Container data-testid="campaign-history">
-         <Heading>Histórico</Heading>
+         <Header>
+            <Heading>Histórico</Heading>
+         </Header>
          {isLoadingFirstPage && (
             <Feedback role="status" data-testid="campaign-history-loading">
                Carregando histórico...

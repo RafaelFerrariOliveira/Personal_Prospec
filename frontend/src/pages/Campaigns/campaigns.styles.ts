@@ -1,53 +1,65 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
 import {
+   card,
+   emptyState,
    fieldError,
    fieldInput,
    fieldLabel,
+   pageSubtitle,
+   pageTitle,
    primaryButton,
-   secondaryButton,
+   smallButton,
 } from '@extensions/designSystem/formControls';
 import { focusRing } from '@extensions/designSystem/focusRing';
 import { theme } from '@extensions/designSystem/themes';
 
-export const Container = styled.main`
+export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.md};
-   max-width: ${theme.sizes.contentMaxWidth};
-   margin: 0 auto;
-   padding: ${theme.spacing.xl} ${theme.spacing.md};
-   font-family: ${theme.fontFamily};
+   gap: ${theme.space[24]};
 `;
 
-export const Header = styled.header`
+export const PageHeader = styled.header`
    display: flex;
-   align-items: center;
+   flex-wrap: wrap;
+   align-items: flex-end;
    justify-content: space-between;
-   gap: ${theme.spacing.md};
+   gap: ${theme.space[16]};
+`;
+
+export const Heading = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[6]};
 `;
 
 export const Title = styled.h1`
-   margin: 0;
-   font-size: ${theme.fontSizes.pageTitle};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
+   ${pageTitle}
+`;
+
+export const Subtitle = styled.p`
+   ${pageSubtitle}
+`;
+
+export const PrimaryButton = styled.button`
+   ${primaryButton}
 `;
 
 export const Notice = styled.div`
-   padding: ${theme.spacing.sm} ${theme.spacing.md};
+   padding: ${theme.space[10]} ${theme.space[12]};
    border: ${theme.borderWidths.thin} solid ${colors.feedback.success.border};
-   border-radius: ${theme.rounded.md};
+   border-radius: ${theme.rounded.control};
    background-color: ${colors.feedback.success.bg};
-   font-size: ${theme.fontSizes.button};
+   font-size: ${theme.fontSizes.small};
    color: ${colors.feedback.success.fg};
 `;
 
 export const FilterField = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.xs};
-   max-width: ${theme.sizes.formMaxWidth};
+   gap: ${theme.space[6]};
+   max-width: ${theme.sizes.numberFieldMaxWidth};
 `;
 
 export const Label = styled.label`
@@ -56,37 +68,76 @@ export const Label = styled.label`
 
 export const Select = styled.select`
    ${fieldInput}
+   min-height: ${theme.sizes.controlMedium};
 `;
 
-export const List = styled.ul`
+export const TableSection = styled.section`
+   ${card}
+   overflow: hidden;
+`;
+
+export const TableScroll = styled.div`
+   overflow-x: auto;
+`;
+
+export const Table = styled.div`
+   min-width: ${theme.sizes.tableMinWidth};
+`;
+
+const tableColumns = `minmax(${theme.sizes.tableNameMinWidth}, 1fr) ${theme.sizes.tableLocationWidth} ${theme.sizes.tableStatusWidth} ${theme.sizes.tableDateWidth} ${theme.sizes.tableActionWidth}`;
+
+export const HeaderRow = styled.div`
+   display: grid;
+   grid-template-columns: ${tableColumns};
+   gap: ${theme.space[16]};
+   padding: ${theme.space[12]} ${theme.space[20]};
+   border-bottom: ${theme.borderWidths.thin} solid ${colors.surface.border};
+   background-color: ${colors.surface.subtle};
+   font-size: ${theme.fontSizes.caption};
+   font-weight: ${theme.fontWeights.medium};
+   color: ${colors.text.secondary};
+`;
+
+export const HeaderCellEnd = styled.span`
+   text-align: right;
+`;
+
+export const Row = styled.div`
+   display: grid;
+   grid-template-columns: ${tableColumns};
+   gap: ${theme.space[16]};
+   align-items: center;
+   padding: ${theme.space[16]} ${theme.space[20]};
+   border-bottom: ${theme.borderWidths.thin} solid ${colors.surface.divider};
+`;
+
+export const NameCell = styled.div`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
-   margin: 0;
-   padding: 0;
-   list-style: none;
+   gap: ${theme.space[3]};
+   min-width: 0;
 `;
 
-export const RowButton = styled.button`
-   display: grid;
-   grid-template-columns: 1fr auto;
-   gap: ${theme.spacing.xs} ${theme.spacing.md};
-   width: 100%;
-   padding: ${theme.spacing.md};
-   border: ${theme.borderWidths.thin} solid ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.surface.card};
-   font-family: ${theme.fontFamily};
+export const NameButton = styled.button`
+   overflow: hidden;
+   padding: 0;
+   border: 0;
+   background-color: transparent;
+   font-family: inherit;
+   font-size: ${theme.fontSizes.base};
+   font-weight: ${theme.fontWeights.bold};
+   color: ${colors.text.primary};
    text-align: left;
+   white-space: nowrap;
+   text-overflow: ellipsis;
    cursor: pointer;
-   transition: background-color ${theme.durations.fast} ease-in-out;
 
    &:hover {
-      background-color: ${colors.surface.hover};
+      color: ${colors.primary[600]};
    }
 
    &:active {
-      background-color: ${colors.primary[50]};
+      color: ${colors.primary[700]};
    }
 
    &:disabled {
@@ -97,49 +148,64 @@ export const RowButton = styled.button`
    ${focusRing}
 `;
 
-export const RowName = styled.span`
-   font-size: ${theme.fontSizes.body};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
+export const SecondaryText = styled.span`
+   overflow: hidden;
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.secondary};
+   white-space: nowrap;
+   text-overflow: ellipsis;
 `;
 
-export const RowMeta = styled.span`
-   grid-column: 1 / -1;
-   font-size: ${theme.fontSizes.caption};
-   color: ${colors.text.muted};
+export const CellText = styled.span`
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.strong};
+   white-space: nowrap;
 `;
 
-export const Feedback = styled.span`
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.text.muted};
+export const ActionCell = styled.div`
+   display: flex;
+   justify-content: flex-end;
+`;
+
+export const ViewButton = styled.button`
+   ${smallButton}
+   gap: ${theme.space[6]};
+`;
+
+export const Feedback = styled.p`
+   margin: 0;
+   padding: ${theme.space[14]} ${theme.space[20]};
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.secondary};
 `;
 
 export const EmptyBox = styled.div`
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   gap: ${theme.spacing.sm};
-   padding: ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} dashed ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.surface.card};
+   ${emptyState}
+`;
+
+export const EmptyTitle = styled.span`
+   font-size: ${theme.fontSizes.sectionTitle};
+   font-weight: ${theme.fontWeights.bold};
+`;
+
+export const EmptyText = styled.span`
+   font-size: ${theme.fontSizes.small};
    color: ${colors.text.secondary};
 `;
 
 export const ErrorBox = styled.div`
    display: flex;
+   flex-wrap: wrap;
    align-items: center;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[12]};
+   padding: ${theme.space[14]} ${theme.space[20]};
 `;
 
 export const ErrorText = styled.span`
    ${fieldError}
+   font-size: ${theme.fontSizes.small};
 `;
 
-export const PrimaryButton = styled.button`
-   ${primaryButton}
-`;
-
-export const SecondaryButton = styled.button`
-   ${secondaryButton}
+export const RetryButton = styled.button`
+   ${smallButton}
 `;

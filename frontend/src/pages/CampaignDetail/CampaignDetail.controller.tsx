@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useCampaignDetail } from '@hooks/useCampaignDetail';
 import type { TCampaignDetailResponse } from '@response/campaignDetail.response';
 import { RoutePaths } from '@routes/routePaths';
+import { formatDate } from '@utils/formatDate';
 import { formatLocationSummary } from '@utils/formatLocationSummary';
 import type {
    ICampaignDetailController,
@@ -14,17 +15,17 @@ const NOT_INFORMED = 'Não informado';
 
 const text = (value: string | null | undefined): string => value?.trim() || NOT_INFORMED;
 
-const toItems = (detail: TCampaignDetailResponse): ICampaignDetailItem[] => {
-   const locationSummary = formatLocationSummary(
+const toLocationSummary = (detail: TCampaignDetailResponse): string =>
+   formatLocationSummary(
       detail.locations.map((location) => ({ state: location.state, name: location.municipalityName })),
-   );
+   ) || NOT_INFORMED;
+
+// Objetivo, localização, segmento e data ficam no cabeçalho (como no protótipo); o restante da configuração vai no cartão.
+const toItems = (detail: TCampaignDetailResponse): ICampaignDetailItem[] => {
    const cnae = detail.cnaes.map((item) => `${item.code} ${item.description}`).join('; ');
 
    return [
-      { label: 'Objetivo', value: text(detail.objective) },
-      { label: 'Localização', value: locationSummary || NOT_INFORMED },
       { label: 'Perfil ideal', value: text(detail.idealProfile) },
-      { label: 'Segmento', value: text(detail.segment) },
       { label: 'CNAE', value: text(cnae) },
       { label: 'Serviços', value: text(detail.services) },
       { label: 'Diferenciais', value: text(detail.differentials) },
@@ -54,6 +55,11 @@ const UseCampaignDetailController = ({
       campaignId: campaignId ?? '',
       name: detail?.name ?? '',
       status: detail?.status ?? null,
+      objective: detail ? text(detail.objective) : '',
+      locationSummary: detail ? toLocationSummary(detail) : '',
+      segment: detail ? text(detail.segment) : '',
+      createdAtLabel: detail ? `Criada em ${formatDate(detail.createdAt)}` : '',
+      targetLabel: detail ? `Meta da campanha: ${detail.targetLeadCount} leads` : '',
       items: detail ? toItems(detail) : [],
       progressText: detail ? toProgressText(detail) : PROGRESS_NOT_RUN_TEXT,
       refreshKey: detail ? `${detail.status}-${detail.updatedAt}` : '',

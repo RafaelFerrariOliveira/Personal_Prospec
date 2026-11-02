@@ -1,6 +1,7 @@
 // Chaves de menu e de feature; cada spec acrescenta as suas.
 export const PermissionKeys = {
    menu: {
+      home: 'menu.home',
       campaigns: 'menu.campaigns',
    },
    feature: {},

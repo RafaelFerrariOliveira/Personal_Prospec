@@ -17,7 +17,7 @@ vi.mock('@hooks/useInjection', () => ({
    useInjection: (): IAuthenticationService => ({ login: vi.fn(), logout: vi.fn(), getSession }),
 }));
 vi.mock('@axios/antiforgery/fetchCsrfToken', () => ({ fetchCsrfToken: vi.fn() }));
-vi.mock('@components/appHeader/AppHeader', () => ({ default: () => <div data-testid="app-header-stub" /> }));
+vi.mock('@components/sidebar/Sidebar', () => ({ default: () => <div data-testid="sidebar-stub" /> }));
 vi.mock('@access/hooks/useAccessControl', () => ({ useAccessControl: vi.fn() }));
 
 const allowAll = (): void => {
@@ -66,13 +66,13 @@ describe('AuthRequiredRoutes', () => {
       expect(await screen.findByTestId('login-page')).toBeTruthy();
    });
 
-   it('com usuário renderiza header e Outlet', async () => {
+   it('com usuário renderiza o menu lateral e o Outlet', async () => {
       // Act
       renderGuard({ isBootstrapped: true, email: 'a@b.com' });
 
       // Assert
       expect(await screen.findByTestId('private-page')).toBeTruthy();
-      expect(screen.getByTestId('app-header-stub')).toBeTruthy();
+      expect(screen.getByTestId('sidebar-stub')).toBeTruthy();
    });
 
    it('mostra Loading enquanto o bootstrap não termina e não renderiza a página', () => {

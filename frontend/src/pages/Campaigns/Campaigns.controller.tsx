@@ -4,6 +4,7 @@ import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { CAMPAIGN_STATUS_LABELS, ECampaignStatus } from '@enums/campaignStatus.enum';
 import type { TCampaignListItem } from '@response/campaignList.response';
 import { buildCampaignDetailPath, RoutePaths } from '@routes/routePaths';
+import { formatDate } from '@utils/formatDate';
 import type {
    ICampaignRow,
    ICampaignsController,
@@ -24,11 +25,6 @@ const isCampaignStatus = (value: string): value is ECampaignStatus => (STATUS_VA
 // O state da navegação é dado não tipado (pode vir de qualquer navigate): só aceita o formato enviado pelo formulário.
 const hasCampaignCreated = (state: unknown): boolean =>
    typeof state === 'object' && state !== null && 'campaignCreated' in state && state.campaignCreated === true;
-
-const formatDate = (iso: string): string => {
-   const date = new Date(iso);
-   return Number.isNaN(date.getTime()) ? iso : date.toLocaleDateString('pt-BR');
-};
 
 const toRow = (item: TCampaignListItem): ICampaignRow => ({
    id: item.id,

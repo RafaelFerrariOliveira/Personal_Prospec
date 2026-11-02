@@ -1,73 +1,78 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
-import { fieldError, secondaryButton } from '@extensions/designSystem/formControls';
+import { card, fieldError, sectionTitle, smallButton } from '@extensions/designSystem/formControls';
 import { theme } from '@extensions/designSystem/themes';
 
 export const Container = styled.section`
-   display: flex;
-   flex-direction: column;
-   gap: ${theme.spacing.sm};
-   font-family: ${theme.fontFamily};
+   ${card}
+   overflow: hidden;
+`;
+
+export const Header = styled.div`
+   padding: ${theme.space[14]} ${theme.space[20]};
 `;
 
 export const Heading = styled.h2`
-   margin: 0;
-   font-size: ${theme.fontSizes.body};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
+   ${sectionTitle}
 `;
 
 export const List = styled.ol`
-   display: flex;
-   flex-direction: column;
-   gap: ${theme.spacing.sm};
    margin: 0;
    padding: 0;
    list-style: none;
 `;
 
 export const Item = styled.li`
-   display: flex;
-   flex-direction: column;
-   gap: ${theme.spacing.xs};
-   padding: ${theme.spacing.sm} ${theme.spacing.md};
-   border: ${theme.borderWidths.thin} solid ${colors.surface.border};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.surface.card};
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) auto;
+   gap: ${theme.space[2]} ${theme.space[24]};
+   align-items: center;
+   padding: ${theme.space[14]} ${theme.space[20]};
+   border-top: ${theme.borderWidths.thin} solid ${colors.surface.divider};
 `;
 
 export const ItemTitle = styled.span`
-   font-size: ${theme.fontSizes.button};
+   font-size: ${theme.fontSizes.base};
    font-weight: ${theme.fontWeights.bold};
-   color: ${colors.text.primary};
 `;
 
 export const ItemText = styled.span`
-   font-size: ${theme.fontSizes.button};
+   grid-column: 1;
+   font-size: ${theme.fontSizes.small};
    color: ${colors.text.secondary};
    overflow-wrap: anywhere;
 `;
 
 export const ItemDate = styled.span`
+   grid-row: 1;
+   grid-column: 2;
    font-size: ${theme.fontSizes.caption};
    color: ${colors.text.muted};
+   white-space: nowrap;
 `;
 
-export const Feedback = styled.span`
-   font-size: ${theme.fontSizes.caption};
-   color: ${colors.text.muted};
+export const Feedback = styled.p`
+   margin: 0;
+   padding: ${theme.space[14]} ${theme.space[20]};
+   border-top: ${theme.borderWidths.thin} solid ${colors.surface.divider};
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.text.secondary};
 `;
 
 export const ErrorBox = styled.div`
    display: flex;
+   flex-wrap: wrap;
    align-items: center;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[12]};
+   padding: ${theme.space[14]} ${theme.space[20]};
+   border-top: ${theme.borderWidths.thin} solid ${colors.surface.divider};
 `;
 
 export const ErrorText = styled.span`
    ${fieldError}
+   font-size: ${theme.fontSizes.small};
 `;
 
 export const RetryButton = styled.button`
-   ${secondaryButton}
+   ${smallButton}
 `;

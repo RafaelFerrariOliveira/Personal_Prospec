@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useInfiniteScrollQuery } from '@hooks/useInfiniteScrollQuery';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import type { TCampaignEvent } from '@response/campaignEvent.response';
+import { formatDateTime } from '@utils/formatDate';
 import type {
    ICampaignHistoryController,
    ICampaignHistoryControllerDeps,
@@ -19,16 +20,11 @@ const EVENT_TITLES: Record<string, string> = {
    CampaignCancelled: 'Campanha cancelada',
 };
 
-const formatDate = (iso: string): string => {
-   const date = new Date(iso);
-   return Number.isNaN(date.getTime()) ? iso : date.toLocaleString('pt-BR');
-};
-
 const toItem = (event: TCampaignEvent, index: number): ICampaignHistoryItem => ({
    key: `${event.occurredAt}-${index}`,
    title: EVENT_TITLES[event.type] ?? event.type,
    description: event.description,
-   occurredAtLabel: formatDate(event.occurredAt),
+   occurredAtLabel: formatDateTime(event.occurredAt),
 });
 
 const UseCampaignHistoryController = ({

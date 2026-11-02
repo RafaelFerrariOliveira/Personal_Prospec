@@ -25,6 +25,11 @@ const mockApi = async (page: Page, options: { acceptLogin: boolean }): Promise<v
       return route.fulfill({ json: true });
    });
 
+   // A Home lê os indicadores da lista de campanhas.
+   await page.route('**/api/Campaign/get_all_with_pagination_campaign**', (route) =>
+      route.fulfill({ json: { items: [], totalCount: 0, pageNumber: 1, pageSize: 5, totalPages: 0 } }),
+   );
+
    await page.route('**/api/Authentication/logout', (route) => {
       isLoggedIn = false;
       return route.fulfill({ json: true });
@@ -55,7 +60,7 @@ test.describe('Login (API mockada)', () => {
 
       await expect(page).toHaveURL('/home');
       await expect(page.getByTestId('home')).toBeVisible();
-      await expect(page.getByTestId('app-header-email')).toHaveText(EMAIL);
+      await expect(page.getByTestId('sidebar-email')).toHaveText(EMAIL);
    });
 
    test('senha errada mostra a mensagem e permanece no login', async ({ page }) => {
@@ -74,7 +79,7 @@ test.describe('Login (API mockada)', () => {
       await fillLogin(page, 'senha-correta');
       await expect(page.getByTestId('home')).toBeVisible();
 
-      await page.getByTestId('app-header-logout').click();
+      await page.getByTestId('sidebar-logout').click();
 
       await expect(page.getByTestId('login')).toBeVisible();
       await expect(page).toHaveURL('/');

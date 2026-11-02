@@ -3,6 +3,7 @@ import type { TAccessPolicy } from './accessPolicy.types';
 import { AccessPresets } from './accessPresets';
 
 export const MENU_ACCESS_RULES: Record<TMenuPermissionKey, TAccessPolicy> = {
+   [PermissionKeys.menu.home]: AccessPresets.authenticated,
    [PermissionKeys.menu.campaigns]: AccessPresets.authenticated,
 };
 

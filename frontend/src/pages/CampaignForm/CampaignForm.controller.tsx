@@ -18,13 +18,14 @@ import type { ICampaignFormController, ICampaignFormControllerDeps, ICampaignSum
 
 type TStepField = FieldPath<TCreateCampaignRequest>;
 
-const STEPS: { label: string; fields: TStepField[] }[] = [
-   { label: 'Identificação', fields: ['name', 'objective'] },
-   { label: 'Localização', fields: ['locations'] },
-   { label: 'Perfil', fields: ['idealProfile', 'segment', 'cnaeCodes'] },
-   { label: 'Oferta', fields: ['services', 'differentials', 'valueProposition'] },
-   { label: 'Quantidade de leads', fields: ['targetLeadCount'] },
-   { label: 'Resumo', fields: [] },
+// label: etapa no indicador (research R7); title: título da seção do cartão (textos do protótipo quando existem).
+const STEPS: { label: string; title: string; fields: TStepField[] }[] = [
+   { label: 'Identificação', title: 'Sobre a campanha', fields: ['name', 'objective'] },
+   { label: 'Localização', title: 'Localização', fields: ['locations'] },
+   { label: 'Perfil', title: 'Quem o agente deve encontrar', fields: ['idealProfile', 'segment', 'cnaeCodes'] },
+   { label: 'Oferta', title: 'O que você oferece', fields: ['services', 'differentials', 'valueProposition'] },
+   { label: 'Quantidade de leads', title: 'Limite da pesquisa', fields: ['targetLeadCount'] },
+   { label: 'Resumo', title: 'Resumo', fields: [] },
 ];
 
 const LAST_STEP_INDEX = STEPS.length - 1;
@@ -196,6 +197,7 @@ const UseCampaignFormController = ({
       loadErrors: isEditMode ? errorMessages : [],
       stepIndex,
       stepLabels: STEPS.map((step) => step.label),
+      stepTitle: STEPS[stepIndex]?.title ?? '',
       isFirstStep: stepIndex === 0,
       isLastStep: stepIndex === LAST_STEP_INDEX,
       register,

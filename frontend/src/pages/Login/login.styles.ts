@@ -1,92 +1,78 @@
 import styled from 'styled-components';
 import { colors } from '@extensions/designSystem/colors';
-import { focusRing } from '@extensions/designSystem/focusRing';
+import { fieldError, fieldInput, fieldLabel, primaryButton } from '@extensions/designSystem/formControls';
 import { theme } from '@extensions/designSystem/themes';
 
 export const Container = styled.main`
    display: flex;
+   flex-direction: column;
+   align-items: center;
    justify-content: center;
-   padding: ${theme.spacing.xl} ${theme.spacing.md};
+   gap: ${theme.space[28]};
+   min-height: 100vh;
+   padding: ${theme.space[48]} ${theme.space[20]};
 `;
 
 export const Form = styled.form`
    display: flex;
    flex-direction: column;
-   gap: ${theme.spacing.sm};
+   gap: ${theme.space[20]};
    width: 100%;
-   max-width: ${theme.sizes.formMaxWidth};
+   max-width: ${theme.sizes.loginCardMaxWidth};
+   padding: ${theme.space[32]};
+   border: ${theme.borderWidths.thin} solid ${colors.surface.border};
+   border-radius: ${theme.rounded.panel};
+   background-color: ${colors.surface.card};
+   box-shadow: ${theme.shadows.panel};
+`;
+
+export const Heading = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[6]};
 `;
 
 export const Title = styled.h1`
-   margin: 0 0 ${theme.spacing.md};
-   font-size: ${theme.fontSizes.pageTitle};
+   margin: 0;
+   font-size: ${theme.fontSizes.cardTitle};
    font-weight: ${theme.fontWeights.bold};
-   color: ${colors.neutro.gray[900]};
+   letter-spacing: ${theme.letterSpacings.tighter};
+`;
+
+export const Subtitle = styled.p`
+   margin: 0;
+   font-size: ${theme.fontSizes.base};
+   color: ${colors.text.secondary};
+`;
+
+export const Field = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: ${theme.space[6]};
 `;
 
 export const Label = styled.label`
-   font-size: ${theme.fontSizes.button};
-   font-weight: ${theme.fontWeights.bold};
-   color: ${colors.neutro.gray[800]};
+   ${fieldLabel}
 `;
 
 export const Input = styled.input`
-   padding: ${theme.spacing.sm} ${theme.spacing.md};
-   border: ${theme.borderWidths.thin} solid ${colors.neutro.gray[400]};
-   border-radius: ${theme.rounded.md};
-   font-size: ${theme.fontSizes.body};
-   color: ${colors.neutro.gray[900]};
-
-   &:hover {
-      border-color: ${colors.neutro.gray[600]};
-   }
-
-   &:disabled {
-      cursor: not-allowed;
-      opacity: ${theme.opacities.disabled};
-   }
-
-   ${focusRing}
+   ${fieldInput}
 `;
 
 export const FieldError = styled.span`
-   font-size: ${theme.fontSizes.caption};
-   color: ${colors.neutro.gray[900]};
+   ${fieldError}
 `;
 
 export const ErrorList = styled.ul`
    margin: 0;
-   padding: ${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.neutro.gray[800]};
-   border-radius: ${theme.rounded.md};
-   font-size: ${theme.fontSizes.button};
-   color: ${colors.neutro.gray[900]};
+   padding: 0;
+   list-style: none;
+   font-size: ${theme.fontSizes.small};
+   color: ${colors.feedback.error.fg};
 `;
 
 export const SubmitButton = styled.button`
-   margin-top: ${theme.spacing.md};
-   padding: ${theme.spacing.sm} ${theme.spacing.lg};
-   border: ${theme.borderWidths.thin} solid ${colors.neutro.gray[800]};
-   border-radius: ${theme.rounded.md};
-   background-color: ${colors.neutro.gray[900]};
-   color: ${colors.neutro.white};
-   font-size: ${theme.fontSizes.button};
-   font-weight: ${theme.fontWeights.bold};
-   cursor: pointer;
-   transition: background-color ${theme.durations.fast} ease-in-out;
-
-   &:hover {
-      background-color: ${colors.neutro.gray[700]};
-   }
-
-   &:active {
-      background-color: ${colors.neutro.gray[800]};
-   }
-
-   &:disabled {
-      cursor: not-allowed;
-      opacity: ${theme.opacities.disabled};
-   }
-
-   ${focusRing}
+   ${primaryButton}
+   width: 100%;
+   box-shadow: none;
 `;

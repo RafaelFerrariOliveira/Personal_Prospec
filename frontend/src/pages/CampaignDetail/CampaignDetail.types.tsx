@@ -17,6 +17,11 @@ export interface ICampaignDetailController {
    campaignId: string;
    name: string;
    status: ECampaignStatus | null;
+   objective: string;
+   locationSummary: string;
+   segment: string;
+   createdAtLabel: string;
+   targetLabel: string;
    items: ICampaignDetailItem[];
    progressText: string;
    refreshKey: string;

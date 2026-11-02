@@ -72,13 +72,17 @@ describe('UseCampaignDetailController', () => {
       // Assert
       expect((await screen.findByTestId('campaign-detail-name')).textContent).toBe('Campanha de software');
       const items = screen.getByTestId('campaign-detail-items').textContent ?? '';
-      expect(items).toContain('SP: SAO PAULO');
+      expect(screen.getByTestId('campaign-detail-location').textContent).toBe('SP: SAO PAULO');
+      expect(screen.getByTestId('campaign-detail-segment').textContent).toBe('Tecnologia');
+      expect(screen.getByTestId('campaign-detail-objective').textContent).toBe('Prospectar');
+      expect(screen.getByTestId('campaign-detail-meta').textContent).toContain('Criada em 02/11/2026');
       expect(items).toContain('6201501 Software');
       expect(items).toContain('Consultoria');
       expect(items).toContain('Não informado');
       expect(items).toContain('50');
       expect(screen.getByTestId('status-badge').textContent).toBe('Rascunho');
       expect(screen.getByTestId('campaign-detail-progress').textContent).toBe('A pesquisa ainda não foi executada');
+      expect(screen.getByText('Meta da campanha: 50 leads')).toBeTruthy();
       expect(getCampaignById.mock.calls[0]?.[0]).toBe(ID);
    });
 

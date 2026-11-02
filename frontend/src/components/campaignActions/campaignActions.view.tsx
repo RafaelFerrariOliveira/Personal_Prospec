@@ -1,10 +1,15 @@
+import Icon from '@components/icon/icon';
 import {
    ButtonRow,
    Confirmation,
+   ConfirmationActions,
+   ConfirmationText,
+   ConfirmButton,
    Container,
    DangerButton,
    ErrorList,
    Hint,
+   KeepButton,
    PrimaryButton,
    SecondaryButton,
 } from './campaignActions.styles';
@@ -33,16 +38,19 @@ const CampaignActionsView = ({
          <ButtonRow>
             {canStart && (
                <PrimaryButton type="button" disabled={isBusy} data-testid="campaign-action-start" onClick={onStart}>
+                  <Icon name="play" size="sm" />
                   Iniciar
                </PrimaryButton>
             )}
             {canPause && (
                <SecondaryButton type="button" disabled={isBusy} data-testid="campaign-action-pause" onClick={onPause}>
+                  <Icon name="pause" size="sm" />
                   Pausar
                </SecondaryButton>
             )}
             {canResume && (
                <PrimaryButton type="button" disabled={isBusy} data-testid="campaign-action-resume" onClick={onResume}>
+                  <Icon name="play" size="sm" />
                   Retomar
                </PrimaryButton>
             )}
@@ -61,6 +69,7 @@ const CampaignActionsView = ({
                   data-testid="campaign-action-cancel"
                   onClick={onRequestCancel}
                >
+                  <Icon name="stop" size="sm" />
                   Cancelar campanha
                </DangerButton>
             )}
@@ -70,25 +79,27 @@ const CampaignActionsView = ({
 
          {isConfirmingCancel && (
             <Confirmation role="alertdialog" aria-label="Confirmar cancelamento" data-testid="campaign-cancel-confirm">
-               <span>Cancelar a campanha? Essa ação não pode ser desfeita.</span>
-               <ButtonRow>
-                  <DangerButton
-                     type="button"
-                     disabled={isBusy}
-                     data-testid="campaign-cancel-confirm-yes"
-                     onClick={onConfirmCancel}
-                  >
-                     Sim, cancelar
-                  </DangerButton>
-                  <SecondaryButton
+               <ConfirmationText>
+                  Cancelar a campanha? Os dados já coletados e o histórico continuam guardados.
+               </ConfirmationText>
+               <ConfirmationActions>
+                  <KeepButton
                      type="button"
                      disabled={isBusy}
                      data-testid="campaign-cancel-confirm-no"
                      onClick={onDismissCancel}
                   >
                      Voltar
-                  </SecondaryButton>
-               </ButtonRow>
+                  </KeepButton>
+                  <ConfirmButton
+                     type="button"
+                     disabled={isBusy}
+                     data-testid="campaign-cancel-confirm-yes"
+                     onClick={onConfirmCancel}
+                  >
+                     Sim, cancelar
+                  </ConfirmButton>
+               </ConfirmationActions>
             </Confirmation>
          )}
 

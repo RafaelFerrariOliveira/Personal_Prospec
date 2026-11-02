@@ -15,7 +15,7 @@
 | Objetivo do produto | Sistema local de prospecção B2B com IA: campanha, pesquisa de empresas (Agente Coulson), aprovação de leads, mensagens de WhatsApp (Agente Natasha), envio manual via HERMES, banco central de empresas, tarefas e indicadores. Uso individual. Specs em `specs/001` a `010`; decisões e bloqueios em `docs/discovery/validacao-bloqueios.md` |
 | IA | `claude -p` oficial, local, logado pelo Rafael, na assinatura existente. Proibido chave de API, serviço pago e uso do token da assinatura fora do binário oficial sem autorização explícita |
 | Arquitetura | Decidida em 2026-10-20: Padrão C# (backend) + Padrão React Front com MVVM (frontend), em monorepo |
-| Identidade visual | [A DEFINIR]: não há Style Guide. Antes de definir cor, tipografia ou marca, perguntar. Nunca reaproveitar Style Guide de cliente |
+| Identidade visual | Decidida em 2026-11-02: o protótipo em `Prototipo/Prototipo/Prototipo/` (ignorado pelo git) é a referência. Nome Personal Prospec; fonte Inter; cor primária índigo `#4338CA`; estados em verde, âmbar e rosa. Tokens em `frontend/src/extensions/designSystem/`. Nunca reaproveitar Style Guide de cliente |
 | Sigla do schema SQL | [A DEFINIR]: hoje `APP` no `BaseMapping` |
 | Dependências | Não instaladas (esqueleto). `npm install` e `dotnet restore` só com pedido |
 
@@ -109,4 +109,4 @@ GitHub Spec Kit 1.2.2 (`specify init --here --integration claude --script ps`). 
 
 ## Pendências gerais
 
-Objetivo do produto, identidade visual e sigla do schema estão [A DEFINIR]. Pendências técnicas (Identity, JWT em cookie, CSRF, tenant, rate limiting, módulo de acesso do front, middlewares axios, infraestrutura de teste de integração, pipelines) estão listadas em `backend/README.md` e `frontend/README.md`.
+A sigla do schema SQL está [A DEFINIR]. Pendências técnicas (Identity, JWT em cookie, CSRF, tenant, rate limiting, módulo de acesso do front, middlewares axios, infraestrutura de teste de integração, pipelines) estão listadas em `backend/README.md` e `frontend/README.md`.

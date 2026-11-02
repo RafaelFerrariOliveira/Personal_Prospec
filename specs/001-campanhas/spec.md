@@ -83,6 +83,7 @@ O usuário vê a lista de campanhas com nome, segmento, localização, estado e 
 - **FR-012**: O sistema MUST listar as campanhas com nome, segmento, localização, estado e data de criação, permitir filtrar por estado e abrir o detalhe com a configuração completa.
 - **FR-013**: O sistema MUST impedir registros e execuções duplicados quando "Salvar" ou "Iniciar" forem acionados mais de uma vez seguida.
 - **FR-014**: O sistema MUST registrar no histórico cada mudança de estado e cada alteração de configuração, com data e hora.
+- **FR-015**: O sistema MUST, ao iniciar uma campanha, mostrar uma tela de acompanhamento ("Agente de IA iniciado") com o nome, a meta e a localização da campanha e um atalho para o detalhe, e levar o usuário ao detalhe em seguida (decisão de 2026-11-02).
 
 ### Key Entities *(include if feature involves data)*
 

@@ -1,8 +1,33 @@
 /**
- * [A DEFINIR] provisório até o Style Guide do projeto.
- * Só tons neutros, nenhuma cor de marca: não assumir identidade visual sem Style Guide definido.
+ * Paleta extraída do protótipo oficial (decisão de 2026-11-02, ver CLAUDE.md).
+ * Componentes usam só estes tokens: nunca hex solto.
  */
 export const colors = {
+   primary: {
+      50: '#EEF0FF',
+      200: '#C7D2FE',
+      500: '#4F46E5',
+      600: '#4338CA',
+      700: '#3730A3',
+   },
+   feedback: {
+      success: { fg: '#166534', bg: '#ECFDF3', bar: '#16A34A', border: '#BBF7D0' },
+      warning: { fg: '#92400E', bg: '#FFF7E6', bar: '#D97706' },
+      danger: { fg: '#9F1239', bg: '#FFF1F3', bar: '#E11D48' },
+      error: { fg: '#B91C1C', bg: '#FEF2F2', border: '#FECACA' },
+   },
+   text: {
+      primary: '#18181B',
+      secondary: '#52525B',
+      muted: '#71717A',
+   },
+   surface: {
+      page: '#F7F7F8',
+      card: '#FFFFFF',
+      subtle: '#FAFAFA',
+      hover: '#F4F4F5',
+      border: '#E4E4E7',
+   },
    neutro: {
       white: '#FFFFFF',
       black: '#000000',

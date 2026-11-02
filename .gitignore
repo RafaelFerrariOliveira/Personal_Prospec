@@ -47,3 +47,6 @@ Thumbs.db
 
 # Estado local do Spec Kit
 .specify/feature.json
+
+# Protótipo de referência (não versionar)
+Prototipo/

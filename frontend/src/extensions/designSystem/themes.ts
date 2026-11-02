@@ -1,5 +1,5 @@
 /**
- * [A DEFINIR] provisório até o Style Guide do projeto.
+ * Medidas do design system; a identidade (cores e fonte) vem do protótipo oficial.
  * Tokens neutros mínimos de medida; componentes nunca usam número mágico, sempre estes tokens.
  */
 export const theme = {
@@ -21,6 +21,7 @@ export const theme = {
       button: '0.875rem',
       pageTitle: '1.5rem',
    },
+   fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
    fontWeights: {
       regular: 400,
       bold: 600,

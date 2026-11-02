@@ -12,6 +12,7 @@
 
 ### Session 2026-11-02
 
+- Q: Qual faixa de pontuação vale para Alta? → A: 75 a 100 (decisão do Rafael em 2026-11-02, a partir do protótipo). Média 50 a 74, Baixa 0 a 49.
 - Q: Como o Coulson reduz o número de chamadas de IA? → A: Funil. As candidatas vêm da base de CNPJ já ranqueadas por regra fixa (sem IA); a IA enriquece da mais aderente para a menos e para ao atingir a meta.
 - Q: O contato que já vem da base de CNPJ conta como canal válido? → A: Sim. A IA entra para site e evidências, não para achar telefone. Risco aceito: a base é mensal e pode trazer contato defasado ou de pessoa física em MEI.
 - Q: WhatsApp conta como canal na Etapa 1? → A: Não. Sem envio, o canal válido é telefone, e-mail corporativo ou site.
@@ -23,7 +24,7 @@
 
 ### User Story 1 - Descobrir e qualificar empresas da campanha (Priority: P1)
 
-Ao iniciar a campanha, o Coulson pesquisa empresas que combinam com o perfil (localização, segmento, perfil ideal), registra de onde veio cada informação e dá a cada empresa uma pontuação de 0 a 100, com a explicação baseada em evidências. As empresas são classificadas em Alta (80 a 100), Média (50 a 79) e Baixa (0 a 49).
+Ao iniciar a campanha, o Coulson pesquisa empresas que combinam com o perfil (localização, segmento, perfil ideal), registra de onde veio cada informação e dá a cada empresa uma pontuação de 0 a 100, com a explicação baseada em evidências. As empresas são classificadas em Alta (75 a 100), Média (50 a 74) e Baixa (0 a 49).
 
 **Why this priority**: é o coração do sistema: transforma o perfil da campanha em uma lista de candidatos qualificados e rastreáveis.
 
@@ -34,7 +35,7 @@ Ao iniciar a campanha, o Coulson pesquisa empresas que combinam com o perfil (lo
 1. **Given** uma campanha iniciada, **When** o Coulson pesquisa, **Then** cada empresa encontrada fica registrada com dados cadastrais, contatos, fontes, links e data de consulta.
 2. **Given** uma empresa encontrada, **When** o Coulson a qualifica, **Then** ela recebe pontuação de 0 a 100, classificação (Alta, Média ou Baixa) e justificativa com as evidências usadas.
 3. **Given** uma informação não confirmada, **When** ela é registrada, **Then** aparece marcada como não confirmada e não entra como evidência da pontuação.
-4. **Given** uma pontuação exatamente nos limites (49, 50, 79, 80), **When** classificada, **Then** cai na faixa correta definida.
+4. **Given** uma pontuação exatamente nos limites (49, 50, 74, 75), **When** classificada, **Then** cai na faixa correta definida.
 
 ### User Story 2 - Respeitar a quantidade de leads e os canais de contato (Priority: P1)
 
@@ -101,7 +102,7 @@ Falhas recuperáveis (por exemplo, fonte indisponível) geram novas tentativas l
 - **FR-002**: O sistema MUST pesquisar apenas em fontes permitidas, priorizando fontes oficiais e autorizadas; no MVP, a base aberta de CNPJ e páginas públicas da web, sem login nem redes sociais.
 - **FR-003**: O sistema MUST registrar, para cada empresa, dados cadastrais, contatos comerciais, fontes, links, data de consulta e informações confirmadas, distinguindo o que não foi confirmado.
 - **FR-004**: O sistema MUST calcular uma pontuação de compatibilidade de 0 a 100 para cada empresa e MUST apresentar a justificativa com as evidências usadas.
-- **FR-005**: O sistema MUST classificar como Alta (80 a 100), Média (50 a 79) ou Baixa (0 a 49).
+- **FR-005**: O sistema MUST classificar como Alta (75 a 100), Média (50 a 74) ou Baixa (0 a 49).
 - **FR-006**: O sistema MUST manter no histórico de descoberta as empresas sem telefone, e-mail corporativo nem site, sem incluí-las nos leads nem na contagem.
 - **FR-007**: O sistema MUST contar para a meta apenas leads qualificados com ao menos um canal de contato válido.
 - **FR-008**: O sistema MUST encerrar a pesquisa ao atingir a quantidade de leads definida e passar a campanha para "Concluída".

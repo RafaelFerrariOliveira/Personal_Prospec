@@ -19,6 +19,10 @@ public static class EcosystemInitiation
 
         app.UseHttpsRedirection();
 
+        // Publicação única (front + API no mesmo host): o build do React fica em wwwroot e sai antes dos middlewares da API.
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+
         // Ordem do padrão: o CSRF vem ANTES de CORS, RateLimiter e Authentication.
         app.UseMiddleware<CsrfValidationMiddleware>();
         app.UseCors(CorsSettings.PolicyName);
@@ -29,5 +33,8 @@ public static class EcosystemInitiation
 
         app.MapControllers();
         app.MapHealthChecks("/health").AllowAnonymous();
+
+        // Rotas do React (ex.: /campaigns/new) devolvem o index.html; api/ e health ficam de fora para seguirem com 404.
+        app.MapFallbackToFile("{*path:regex(^(?!api/|health$).*$)}", "index.html").AllowAnonymous();
     }
 }

@@ -9,7 +9,8 @@
    "hostRequirements": { "cpus": 2, "memory": "8gb" },
    "forwardPorts": [5180],
    "portsAttributes": {
-      "5180": { "label": "Personal Prospec", "onAutoForward": "silent" }
+      "5180": { "label": "Personal Prospec", "onAutoForward": "silent" },
+      "1433": { "label": "SQL Server (interno)", "onAutoForward": "ignore" }
    },
    "secrets": {
       "SEED_EMAIL": { "description": "E-mail da conta única que entra no sistema publicado." },

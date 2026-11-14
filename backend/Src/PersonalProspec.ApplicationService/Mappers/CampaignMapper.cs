@@ -4,6 +4,7 @@ using PersonalProspec.ApplicationService.Dtos.CampaignDtos.Response;
 using PersonalProspec.ApplicationService.Interfaces.MapperContracts;
 using PersonalProspec.Domain.Entities;
 using PersonalProspec.Domain.Enums;
+using PersonalProspec.Domain.Extensions;
 using PersonalProspec.Domain.Handlers.PaginationSettings;
 
 namespace PersonalProspec.ApplicationService.Mappers;
@@ -19,13 +20,13 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
         {
             Id = id,
             RequestId = dto.RequestId,
-            Name = Required(dto.Name),
-            Objective = Required(dto.Objective),
-            IdealProfile = Optional(dto.IdealProfile),
-            Segment = Required(dto.Segment),
-            Services = Optional(dto.Services),
-            Differentials = Optional(dto.Differentials),
-            ValueProposition = Optional(dto.ValueProposition),
+            Name = dto.Name.SanitizeRequired(),
+            Objective = dto.Objective.SanitizeRequired(),
+            IdealProfile = dto.IdealProfile.SanitizeOptional(),
+            Segment = dto.Segment.SanitizeRequired(),
+            Services = dto.Services.SanitizeOptional(),
+            Differentials = dto.Differentials.SanitizeOptional(),
+            ValueProposition = dto.ValueProposition.SanitizeOptional(),
             TargetLeadCount = dto.TargetLeadCount,
             Status = ECampaignStatus.Draft,
             CreatedAt = now,
@@ -40,13 +41,13 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
         new()
         {
             Id = dto.Id,
-            Name = Required(dto.Name),
-            Objective = Required(dto.Objective),
-            IdealProfile = Optional(dto.IdealProfile),
-            Segment = Required(dto.Segment),
-            Services = Optional(dto.Services),
-            Differentials = Optional(dto.Differentials),
-            ValueProposition = Optional(dto.ValueProposition),
+            Name = dto.Name.SanitizeRequired(),
+            Objective = dto.Objective.SanitizeRequired(),
+            IdealProfile = dto.IdealProfile.SanitizeOptional(),
+            Segment = dto.Segment.SanitizeRequired(),
+            Services = dto.Services.SanitizeOptional(),
+            Differentials = dto.Differentials.SanitizeOptional(),
+            ValueProposition = dto.ValueProposition.SanitizeOptional(),
             TargetLeadCount = dto.TargetLeadCount,
             BusinessUnitId = businessUnitId,
             Locations = ToLocations(dto.Locations, dto.Id, businessUnitId),
@@ -54,33 +55,31 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
         };
 
     public bool IsEquivalent(Campaign existing, CreateCampaignRequest dto) =>
-        existing.Name == Required(dto.Name)
-        && existing.Objective == Required(dto.Objective)
-        && existing.IdealProfile == Optional(dto.IdealProfile)
-        && existing.Segment == Required(dto.Segment)
-        && existing.Services == Optional(dto.Services)
-        && existing.Differentials == Optional(dto.Differentials)
-        && existing.ValueProposition == Optional(dto.ValueProposition)
+        existing.Name == dto.Name.SanitizeRequired()
+        && existing.Objective == dto.Objective.SanitizeRequired()
+        && existing.IdealProfile == dto.IdealProfile.SanitizeOptional()
+        && existing.Segment == dto.Segment.SanitizeRequired()
+        && existing.Services == dto.Services.SanitizeOptional()
+        && existing.Differentials == dto.Differentials.SanitizeOptional()
+        && existing.ValueProposition == dto.ValueProposition.SanitizeOptional()
         && existing.TargetLeadCount == dto.TargetLeadCount
-        && SameSet(existing.Locations.Select(l => l.State + l.MunicipalityCode),
-            dto.Locations.Select(l => l.State.Trim().ToUpperInvariant() + l.MunicipalityCode.Trim()))
+        && SameLocations(existing.Locations, dto.Locations)
         && SameSet(existing.Cnaes.Select(n => n.CnaeCode), dto.CnaeCodes);
 
     public IReadOnlyList<string> GetChangedFields(Campaign campaign, UpdateCampaignRequest dto)
     {
         var changed = new List<string>();
 
-        if (campaign.Name != Required(dto.Name)) changed.Add(nameof(Campaign.Name));
-        if (campaign.Objective != Required(dto.Objective)) changed.Add(nameof(Campaign.Objective));
-        if (campaign.IdealProfile != Optional(dto.IdealProfile)) changed.Add(nameof(Campaign.IdealProfile));
-        if (campaign.Segment != Required(dto.Segment)) changed.Add(nameof(Campaign.Segment));
-        if (campaign.Services != Optional(dto.Services)) changed.Add(nameof(Campaign.Services));
-        if (campaign.Differentials != Optional(dto.Differentials)) changed.Add(nameof(Campaign.Differentials));
-        if (campaign.ValueProposition != Optional(dto.ValueProposition)) changed.Add(nameof(Campaign.ValueProposition));
+        if (campaign.Name != dto.Name.SanitizeRequired()) changed.Add(nameof(Campaign.Name));
+        if (campaign.Objective != dto.Objective.SanitizeRequired()) changed.Add(nameof(Campaign.Objective));
+        if (campaign.IdealProfile != dto.IdealProfile.SanitizeOptional()) changed.Add(nameof(Campaign.IdealProfile));
+        if (campaign.Segment != dto.Segment.SanitizeRequired()) changed.Add(nameof(Campaign.Segment));
+        if (campaign.Services != dto.Services.SanitizeOptional()) changed.Add(nameof(Campaign.Services));
+        if (campaign.Differentials != dto.Differentials.SanitizeOptional()) changed.Add(nameof(Campaign.Differentials));
+        if (campaign.ValueProposition != dto.ValueProposition.SanitizeOptional()) changed.Add(nameof(Campaign.ValueProposition));
         if (campaign.TargetLeadCount != dto.TargetLeadCount) changed.Add(nameof(Campaign.TargetLeadCount));
 
-        if (!SameSet(campaign.Locations.Select(l => l.State + l.MunicipalityCode),
-                dto.Locations.Select(l => l.State.Trim().ToUpperInvariant() + l.MunicipalityCode.Trim())))
+        if (!SameLocations(campaign.Locations, dto.Locations))
             changed.Add(nameof(Campaign.Locations));
 
         if (!SameSet(campaign.Cnaes.Select(n => n.CnaeCode), dto.CnaeCodes))
@@ -91,13 +90,13 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
 
     public void ApplyUpdate(Campaign campaign, UpdateCampaignRequest dto)
     {
-        campaign.Name = Required(dto.Name);
-        campaign.Objective = Required(dto.Objective);
-        campaign.IdealProfile = Optional(dto.IdealProfile);
-        campaign.Segment = Required(dto.Segment);
-        campaign.Services = Optional(dto.Services);
-        campaign.Differentials = Optional(dto.Differentials);
-        campaign.ValueProposition = Optional(dto.ValueProposition);
+        campaign.Name = dto.Name.SanitizeRequired();
+        campaign.Objective = dto.Objective.SanitizeRequired();
+        campaign.IdealProfile = dto.IdealProfile.SanitizeOptional();
+        campaign.Segment = dto.Segment.SanitizeRequired();
+        campaign.Services = dto.Services.SanitizeOptional();
+        campaign.Differentials = dto.Differentials.SanitizeOptional();
+        campaign.ValueProposition = dto.ValueProposition.SanitizeOptional();
         campaign.TargetLeadCount = dto.TargetLeadCount;
         campaign.UpdatedAt = clock.GetCurrentInstant();
     }
@@ -107,8 +106,8 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
         {
             Id = Guid.NewGuid(),
             CampaignId = campaignId,
-            State = l.State.Trim().ToUpperInvariant(),
-            MunicipalityCode = l.MunicipalityCode.Trim(),
+            State = NormalizeState(l.State),
+            MunicipalityCode = NormalizeCode(l.MunicipalityCode),
             BusinessUnitId = businessUnitId
         }).ToList();
 
@@ -189,14 +188,17 @@ public sealed class CampaignMapper(IClock clock) : ICampaignMapper
                 .ToList(),
             events.TotalCount, events.PageNumber, events.PageSize);
 
-    private static string Required(string? value) => (value ?? string.Empty).Trim();
+    private static bool SameLocations(IEnumerable<CampaignLocation> existing, IEnumerable<LocationRequest> requested) =>
+        existing.Select(l => LocationKey(l.State, l.MunicipalityCode)).Order()
+            .SequenceEqual(requested.Select(l => LocationKey(l.State, l.MunicipalityCode)).Order());
 
-    private static string? Optional(string? value)
-    {
-        var trimmed = value?.Trim();
+    // Separador explícito: sem ele, "SP" + "12" e "SP1" + "2" gerariam a mesma chave.
+    private static string LocationKey(string state, string municipalityCode) =>
+        $"{NormalizeState(state)}|{NormalizeCode(municipalityCode)}";
 
-        return string.IsNullOrEmpty(trimmed) ? null : trimmed;
-    }
+    private static string NormalizeState(string state) => state.Trim().ToUpperInvariant();
+
+    private static string NormalizeCode(string municipalityCode) => municipalityCode.Trim();
 
     private static bool SameSet(IEnumerable<string> left, IEnumerable<string> right) =>
         left.Order().SequenceEqual(right.Select(v => v.Trim()).Order());

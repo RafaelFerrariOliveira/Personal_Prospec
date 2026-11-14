@@ -96,6 +96,48 @@ public sealed class CampaignMapperTests
     }
 
     [Fact]
+    [Trait("Mapper", "Create")]
+    public void CreateRequestToDomain_TextOnlyWithZeroWidthSpace_BecomesEmptyForRequiredRule()
+    {
+        var request = CreateCampaignRequestBuilderTest.NewObject().WithName("​​").WithServices("​").Build();
+
+        var campaign = _mapper.CreateRequestToDomain(request, _businessUnitId);
+
+        Assert.Equal(string.Empty, campaign.Name);
+        Assert.Null(campaign.Services);
+    }
+
+    [Fact]
+    [Trait("Mapper", "IsEquivalent")]
+    public void IsEquivalent_SameTextWithInvisibleChars_ReturnsTrue()
+    {
+        var request = CreateCampaignRequestBuilderTest.NewObject().WithName("Campanha​ Varejo﻿").Build();
+        var existing = CampaignBuilderTest.NewObject().WithName("Campanha Varejo").Build();
+
+        Assert.True(_mapper.IsEquivalent(existing, request));
+    }
+
+    [Fact]
+    [Trait("Mapper", "IsEquivalent")]
+    public void IsEquivalent_LocationWithSpacesAndLowercase_ReturnsTrue()
+    {
+        var request = CreateCampaignRequestBuilderTest.NewObject().WithLocations((" sp ", " 7107 ")).Build();
+        var existing = CampaignBuilderTest.NewObject().WithLocations(("SP", "7107")).Build();
+
+        Assert.True(_mapper.IsEquivalent(existing, request));
+    }
+
+    [Fact]
+    [Trait("Mapper", "ChangedFields")]
+    public void GetChangedFields_OnlyInvisibleCharsAdded_ReturnsEmpty()
+    {
+        var campaign = CampaignBuilderTest.NewObject().Build();
+        var request = UpdateCampaignRequestBuilderTest.NewObject().WithName(campaign.Name + "​").Build();
+
+        Assert.Empty(_mapper.GetChangedFields(campaign, request));
+    }
+
+    [Fact]
     [Trait("Mapper", "ApplyUpdate")]
     public void ApplyUpdate_Request_MutatesFieldsAndUpdatedAtButNotStatus()
     {

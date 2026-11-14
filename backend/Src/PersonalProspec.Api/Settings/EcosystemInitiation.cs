@@ -34,7 +34,8 @@ public static class EcosystemInitiation
         app.MapControllers();
         app.MapHealthChecks("/health").AllowAnonymous();
 
-        // Rotas do React (ex.: /campaigns/new) devolvem o index.html; api/ e health ficam de fora para seguirem com 404.
-        app.MapFallbackToFile("{*path:regex(^(?!api/|health$).*$)}", "index.html").AllowAnonymous();
+        // Rotas do React (ex.: /campaigns/new) devolvem o index.html. nonfile deixa arquivos (/assets/*.js) para o
+        // UseStaticFiles, que não serve quando já há endpoint escolhido; api/ e health ficam de fora do fallback.
+        app.MapFallbackToFile("{*path:nonfile:regex(^(?!api/|health$).*$)}", "index.html").AllowAnonymous();
     }
 }

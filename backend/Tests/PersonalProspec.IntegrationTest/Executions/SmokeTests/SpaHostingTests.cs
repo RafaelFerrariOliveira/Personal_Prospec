@@ -10,11 +10,14 @@ namespace PersonalProspec.IntegrationTest.Executions.SmokeTests;
 public sealed class SpaHostingTests(DatabaseFixture fixture) : IntegrationTestBase(fixture), IDisposable
 {
     private const string IndexHtml = "<!doctype html><title>Personal Prospec</title>";
+    private const string AssetJs = "console.log('personal prospec');";
     private readonly string _webRoot = Directory.CreateTempSubdirectory("pp-wwwroot-").FullName;
 
     private HttpClient CreateClientWithWebRoot()
     {
         File.WriteAllText(Path.Combine(_webRoot, "index.html"), IndexHtml);
+        Directory.CreateDirectory(Path.Combine(_webRoot, "assets"));
+        File.WriteAllText(Path.Combine(_webRoot, "assets", "index-abc123.js"), AssetJs);
 
         return Fixture.Factory
             .WithWebHostBuilder(builder => builder.UseWebRoot(_webRoot))
@@ -33,6 +36,20 @@ public sealed class SpaHostingTests(DatabaseFixture fixture) : IntegrationTestBa
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(IndexHtml, await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    [Trait("Categoria", "Publicação do front")]
+    public async Task Get_BuildAsset_ReturnsTheJavaScriptFileInsteadOfIndexHtml()
+    {
+        var client = CreateClientWithWebRoot();
+
+        var response = await client.GetAsync("/assets/index-abc123.js", TestContext.Current.CancellationToken);
+
+        // Regressão: sem nonfile no fallback, o asset voltava como index.html e o navegador ficava em branco.
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("text/javascript", response.Content.Headers.ContentType?.MediaType);
+        Assert.Equal(AssetJs, await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
     }
 
     [Fact]

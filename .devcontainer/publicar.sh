@@ -35,14 +35,18 @@ source "$SECRETS_FILE"
 
 echo "==> Banco: SQL Server em contêiner ($DB_CONTAINER)"
 DB_STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-if docker container inspect "$DB_CONTAINER" >/dev/null 2>&1; then
+DB_WAIT_ROUNDS=90
+if [[ "$(docker container inspect -f '{{.State.Running}}' "$DB_CONTAINER" 2>/dev/null)" == "true" ]]; then
+   # Já estava no ar (republicação): não haverá nova mensagem de "pronto" para esperar.
+   DB_WAIT_ROUNDS=0
+elif docker container inspect "$DB_CONTAINER" >/dev/null 2>&1; then
    docker start "$DB_CONTAINER" >/dev/null
 else
    docker run -d --name "$DB_CONTAINER" -e ACCEPT_EULA=Y -e "MSSQL_SA_PASSWORD=$SA_PASSWORD" \
       -p "$DB_PORT:1433" -v pp-sqlserver-data:/var/opt/mssql "$SQL_IMAGE" >/dev/null
 fi
 # Espera pelo log desta subida (--since), para não confundir com a mensagem de uma subida anterior.
-for _ in $(seq 1 90); do
+for _ in $(seq 1 "$DB_WAIT_ROUNDS"); do
    if docker logs --since "$DB_STARTED_AT" "$DB_CONTAINER" 2>&1 | grep -q "SQL Server is now ready for client connections"; then
       break
    fi

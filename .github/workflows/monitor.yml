@@ -1,0 +1,39 @@
+name: Monitoramento
+
+# Verifica a publicação a cada 30 min. Sem a variável PUBLIC_URL (publicação desligada), não faz nada.
+on:
+   schedule:
+      - cron: '*/30 * * * *'
+   workflow_dispatch:
+
+permissions:
+   contents: read
+
+jobs:
+   health:
+      name: Health check da publicação
+      runs-on: ubuntu-latest
+      timeout-minutes: 5
+      steps:
+         - name: Verificar /health
+           env:
+              PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+           run: |
+              if [ -z "$PUBLIC_URL" ]; then
+                 echo "::notice::PUBLIC_URL não definida: publicação desligada, nada a monitorar."
+                 exit 0
+              fi
+              result=$(curl -s -o /tmp/health.txt -w '%{http_code} %{time_total}' --max-time 30 "$PUBLIC_URL/health" || echo "000 0")
+              status=${result%% *}
+              seconds=${result##* }
+              {
+                 echo "### Health check"
+                 echo "| URL | Status HTTP | Tempo (s) | Corpo |"
+                 echo "|---|---|---|---|"
+                 echo "| $PUBLIC_URL/health | $status | $seconds | $(head -c 100 /tmp/health.txt 2>/dev/null) |"
+              } >> "$GITHUB_STEP_SUMMARY"
+              if [ "$status" != "200" ]; then
+                 echo "::error::Publicação fora do ar: /health respondeu $status."
+                 exit 1
+              fi
+              echo "Publicação no ar: /health respondeu 200 em ${seconds}s."

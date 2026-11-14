@@ -45,6 +45,17 @@ npm run dev
 
 Segredos nunca entram no repositório: backend usa `dotnet user-secrets` em dev; frontend usa `.env` (ignorado pelo git).
 
+## Publicação (GitHub Codespaces)
+
+Publicação gratuita para demonstração: o Codespace roda o SQL Server em contêiner e o API serve o build do React no mesmo endereço.
+
+1. Ao criar o Codespace na `main`, preencha os segredos `SEED_EMAIL` e `SEED_PASSWORD` (conta única que entra no sistema).
+2. No terminal do Codespace: `bash .devcontainer/publicar.sh`. Os demais segredos (SA do banco, pepper, chave JWT) são gerados em `~/.personalprospec`, fora do repositório.
+3. Libere a porta: `gh codespace ports visibility 5180:public -c $CODESPACE_NAME` (o script mostra o endereço público).
+4. Monitoramento: cadastre a variável de repositório `PUBLIC_URL` com o endereço público; o workflow `Monitoramento` verifica `/health` a cada 30 minutos.
+
+Para derrubar: apague a variável `PUBLIC_URL` e exclua o Codespace.
+
 ## Atualizar as rules a partir do Obsidian
 
 ```bash

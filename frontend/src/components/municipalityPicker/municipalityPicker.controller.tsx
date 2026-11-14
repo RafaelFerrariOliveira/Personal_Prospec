@@ -3,6 +3,7 @@ import { useInfiniteScrollQuery } from '@hooks/useInfiniteScrollQuery';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { CAMPAIGN_LIMITS } from '@domain/campaignLimits';
 import type { TMunicipalityResponse, TStateResponse } from '@response/reference.response';
+import { formatMunicipalityName } from '@utils/formatMunicipalityName';
 import type { IMunicipalityPickerController, IMunicipalityPickerControllerDeps } from './municipalityPicker.types';
 
 const DEFAULT_DEBOUNCE_MS = 300;
@@ -122,10 +123,14 @@ const UseMunicipalityPickerController = ({
       states,
       stateCode,
       term,
-      cities: items.map((city) => ({ ...city, isSelected: selectedCodes.includes(city.code) })),
+      cities: items.map((city) => ({
+         ...city,
+         name: formatMunicipalityName(city.name),
+         isSelected: selectedCodes.includes(city.code),
+      })),
       selected: value.map((location) => ({
          code: location.municipalityCode,
-         label: labels[location.municipalityCode] ?? location.municipalityCode,
+         label: formatMunicipalityName(labels[location.municipalityCode] ?? location.municipalityCode),
       })),
       isLoadingStates,
       isLoadingFirstPage,

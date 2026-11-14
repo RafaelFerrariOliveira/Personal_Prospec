@@ -99,7 +99,7 @@ test.describe('Criar campanha (API mockada)', () => {
 
       const summary = page.getByTestId('campaign-summary');
       await expect(summary).toContainText('Campanha de software');
-      await expect(summary).toContainText('SP: CAMPINAS');
+      await expect(summary).toContainText('SP: Campinas');
       await expect(summary).toContainText('6201501');
       await expect(summary).toContainText('50');
 

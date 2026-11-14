@@ -10,7 +10,7 @@ describe('formatLocationSummary', () => {
       ]);
 
       // Assert
-      expect(result).toBe('SP: SAO PAULO, CAMPINAS');
+      expect(result).toBe('SP: Sao Paulo, Campinas');
    });
 
    it('uma cidade só', () => {
@@ -18,7 +18,7 @@ describe('formatLocationSummary', () => {
       const result = formatLocationSummary([{ state: 'RJ', name: 'NITEROI' }]);
 
       // Assert
-      expect(result).toBe('RJ: NITEROI');
+      expect(result).toBe('RJ: Niteroi');
    });
 
    it('sem cidade devolve texto vazio para quem chama decidir o rótulo', () => {

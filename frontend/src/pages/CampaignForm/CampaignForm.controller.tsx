@@ -138,7 +138,8 @@ const UseCampaignFormController = ({
    );
 
    const onNext = useCallback(async (): Promise<void> => {
-      const isStepValid = await trigger(STEPS[stepIndex]?.fields ?? []);
+      // shouldFocus: quem navega por teclado ou usa lupa vai direto ao primeiro campo com erro.
+      const isStepValid = await trigger(STEPS[stepIndex]?.fields ?? [], { shouldFocus: true });
       if (isStepValid) setStepIndex((current) => Math.min(current + 1, LAST_STEP_INDEX));
    }, [trigger, stepIndex]);
 

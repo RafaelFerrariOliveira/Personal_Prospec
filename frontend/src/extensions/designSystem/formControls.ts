@@ -50,9 +50,11 @@ export const fieldTextarea = css`
    resize: vertical;
 `;
 
+// Erro no tamanho do texto base, com peso médio e no vermelho mais escuro: legível para quem tem baixa visão.
 export const fieldError = css`
-   font-size: ${theme.fontSizes.caption};
-   color: ${colors.feedback.error.fg};
+   font-size: ${theme.fontSizes.base};
+   font-weight: ${theme.fontWeights.medium};
+   color: ${colors.feedback.error.text};
 `;
 
 export const fieldHint = css`

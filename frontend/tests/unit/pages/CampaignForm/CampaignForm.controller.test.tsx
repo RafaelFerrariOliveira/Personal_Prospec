@@ -99,6 +99,19 @@ describe('UseCampaignFormController', () => {
       expect(screen.queryByTestId('stub-pick-city')).toBeNull();
    });
 
+   it('ao bloquear o avanço leva o foco ao primeiro campo com erro', async () => {
+      // Arrange
+      render(<Harness fakes={fakes} />);
+      type('campaign-name', 'Campanha de software');
+
+      // Act
+      fireEvent.click(screen.getByTestId('campaign-next'));
+
+      // Assert
+      await screen.findByTestId('campaign-objective-error');
+      expect(document.activeElement).toBe(screen.getByTestId('campaign-objective'));
+   });
+
    it('nome só com espaços não avança', async () => {
       // Arrange
       render(<Harness fakes={fakes} />);
@@ -152,7 +165,7 @@ describe('UseCampaignFormController', () => {
       // Assert
       const summary = screen.getByTestId('campaign-summary').textContent ?? '';
       expect(summary).toContain('Campanha de software');
-      expect(summary).toContain('SP: SAO PAULO');
+      expect(summary).toContain('SP: Sao Paulo');
       expect(summary).toContain('6201501 Desenvolvimento de programas');
       expect(summary).toContain('50');
       expect(summary).toContain('Não informado');

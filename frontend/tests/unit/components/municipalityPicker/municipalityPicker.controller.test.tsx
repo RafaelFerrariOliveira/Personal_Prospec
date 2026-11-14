@@ -103,7 +103,7 @@ describe('UseMunicipalityPickerController', () => {
 
       // Assert
       expect(getMunicipalities.mock.calls[0]?.[0]).toMatchObject({ state: 'SP', pageNumber: 1, pageSize: 30 });
-      expect(screen.getByText('CAMPINAS')).toBeTruthy();
+      expect(screen.getByText('Campinas')).toBeTruthy();
    });
 
    it('seleciona e desmarca cidade, guardando o nome', async () => {
@@ -123,15 +123,15 @@ describe('UseMunicipalityPickerController', () => {
 
       // Assert
       expect(onChangeSpy).toHaveBeenLastCalledWith([{ state: 'SP', municipalityCode: '1000' }], {
-         '1000': 'SAO PAULO',
+         '1000': 'Sao Paulo',
       });
-      expect(screen.getByTestId('municipality-selected').textContent).toContain('SAO PAULO');
+      expect(screen.getByTestId('municipality-selected').textContent).toContain('Sao Paulo');
 
       // Act
       fireEvent.click(screen.getByTestId('municipality-city-1000'));
 
       // Assert
-      expect(onChangeSpy).toHaveBeenLastCalledWith([], { '1000': 'SAO PAULO' });
+      expect(onChangeSpy).toHaveBeenLastCalledWith([], { '1000': 'Sao Paulo' });
    });
 
    it('trocar a UF limpa as cidades selecionadas', async () => {
@@ -232,7 +232,7 @@ describe('UseMunicipalityPickerController', () => {
       await flush();
 
       // Assert
-      expect(screen.getByText('CAMPINAS')).toBeTruthy();
+      expect(screen.getByText('Campinas')).toBeTruthy();
       expect(screen.queryByTestId('municipality-error')).toBeNull();
    });
 

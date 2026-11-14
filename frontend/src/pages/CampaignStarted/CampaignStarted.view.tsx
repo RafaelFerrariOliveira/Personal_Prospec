@@ -65,7 +65,10 @@ const CampaignStartedView = ({
             </SuccessPill>
             <Heading>
                <Title>Agente de IA iniciado</Title>
-               <Subtitle>Pesquisando empresas que correspondem ao perfil da campanha...</Subtitle>
+               <Subtitle>
+                  O agente vai pesquisar empresas que correspondem ao perfil da campanha. Acompanhe o andamento no
+                  detalhe.
+               </Subtitle>
             </Heading>
             <InfoBox>
                <InfoLabel>Campanha</InfoLabel>

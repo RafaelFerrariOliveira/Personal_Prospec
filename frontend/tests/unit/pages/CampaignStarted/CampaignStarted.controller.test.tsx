@@ -76,7 +76,7 @@ describe('UseCampaignStartedController', () => {
       expect(screen.getByText('Agente de IA iniciado')).toBeTruthy();
       expect(screen.getByTestId('campaign-started-name').textContent).toContain('Campanha de software');
       expect(screen.getByTestId('campaign-started-target').textContent).toContain('50');
-      expect(screen.getByTestId('campaign-started-location').textContent).toContain('SP: SAO PAULO, CAMPINAS');
+      expect(screen.getByTestId('campaign-started-location').textContent).toContain('SP: Sao Paulo, Campinas');
    });
 
    it('redireciona ao detalhe depois de 3 segundos, não antes', async () => {

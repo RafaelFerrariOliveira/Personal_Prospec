@@ -72,7 +72,7 @@ describe('UseCampaignDetailController', () => {
       // Assert
       expect((await screen.findByTestId('campaign-detail-name')).textContent).toBe('Campanha de software');
       const items = screen.getByTestId('campaign-detail-items').textContent ?? '';
-      expect(screen.getByTestId('campaign-detail-location').textContent).toBe('SP: SAO PAULO');
+      expect(screen.getByTestId('campaign-detail-location').textContent).toBe('SP: Sao Paulo');
       expect(screen.getByTestId('campaign-detail-segment').textContent).toBe('Tecnologia');
       expect(screen.getByTestId('campaign-detail-objective').textContent).toBe('Prospectar');
       expect(screen.getByTestId('campaign-detail-meta').textContent).toContain('Criada em 02/11/2026');

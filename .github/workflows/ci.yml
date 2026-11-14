@@ -1,0 +1,72 @@
+name: CI
+
+on:
+   push:
+      branches: [main]
+   pull_request:
+      branches: [main]
+   workflow_dispatch:
+
+permissions:
+   contents: read
+
+concurrency:
+   group: ci-${{ github.ref }}
+   cancel-in-progress: true
+
+jobs:
+   backend:
+      name: Backend (.NET 10)
+      runs-on: ubuntu-latest
+      defaults:
+         run:
+            working-directory: backend
+      steps:
+         - uses: actions/checkout@v7
+
+         - uses: actions/setup-dotnet@v6
+           with:
+              dotnet-version: 10.0.x
+
+         - name: Restore
+           run: dotnet restore PersonalProspec.slnx
+
+         - name: Build
+           run: dotnet build PersonalProspec.slnx --no-restore -c Release
+
+         - name: Testes unitários
+           run: dotnet test Tests/PersonalProspec.UnitTest/PersonalProspec.UnitTest.csproj --no-build -c Release --logger "console;verbosity=normal"
+
+         - name: Testes de arquitetura
+           run: dotnet test Tests/PersonalProspec.ArchitectureTest/PersonalProspec.ArchitectureTest.csproj --no-build -c Release --logger "console;verbosity=normal"
+
+         # O runner ubuntu já tem Docker: o Testcontainers sobe o SQL Server descartável dos testes.
+         - name: Testes de integração (SQL Server via Testcontainers)
+           run: dotnet test Tests/PersonalProspec.IntegrationTest/PersonalProspec.IntegrationTest.csproj --no-build -c Release --logger "console;verbosity=normal"
+
+   frontend:
+      name: Frontend (React + Vite)
+      runs-on: ubuntu-latest
+      defaults:
+         run:
+            working-directory: frontend
+      steps:
+         - uses: actions/checkout@v7
+
+         - uses: actions/setup-node@v7
+           with:
+              node-version-file: frontend/.nvmrc
+              cache: npm
+              cache-dependency-path: frontend/package-lock.json
+
+         - name: Instalar dependências
+           run: npm ci
+
+         - name: Lint
+           run: npm run lint
+
+         - name: Build (tsc + vite)
+           run: npm run build
+
+         - name: Testes unitários com cobertura
+           run: npm run test:coverage

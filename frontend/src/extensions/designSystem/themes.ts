@@ -76,7 +76,7 @@ export const theme = {
    },
    borderWidths: {
       thin: '1px',
-      // 3px: com escala de tela do Windows (125%), 2px era arredondado para 1,6px e ficava fino para baixa visão.
+      // 3px: na validação, o foco de 2px apareceu com 1,6px na tela e ficou fino para quem tem baixa visão.
       focus: '3px',
       spinner: '0.25rem',
    },
